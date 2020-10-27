@@ -19,6 +19,7 @@
         left: 60%;
         padding-left: 10px;
         border-radius: 0 0 10px 10px;
+        z-index: 100;
     }
     
     nav a {
@@ -169,8 +170,8 @@
     
     #circle {
         background-color: red;
-        height: 800px;
-        width: 800px;
+        height: 600px;
+        width: 600px;
         border-radius: 50%;
         margin: -450px auto auto auto;
         color: whitesmoke;
