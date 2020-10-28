@@ -26,7 +26,7 @@
         font-family: sans-serif;
     }
     nav a:hover {
-        color: rgb(6, 198, 247);
+        color: rgb(247, 6, 6);
         font-weight: bolder;
         -webkit-transform: scale(1.2);
         -ms-transform: scale(1.2);
@@ -34,7 +34,7 @@
     }
     
     .active{
-        color:rgb(6, 198, 247)
+        color:rgb(247, 6, 6)
     }
 
     h3{
@@ -101,7 +101,7 @@
       }
       
       input[type=submit] {
-        background-color:rgb(6, 198, 247);
+        background-color:rgb(247, 6, 6);
         color: white;
         padding: 12px 20px;
         border: none;
@@ -112,7 +112,7 @@
       }
       
       input[type=submit]:hover {
-        background-color: rgb(6, 198, 247);
+        background-color: rgb(247, 6, 6);
       }
       
       .container {
@@ -129,10 +129,28 @@
       }
 
 
-      @media screen and (max-width: 600px){
+      @media screen and (min-width: 600px){
         
         nav{
-            width: 100%; 
+            width: 100%;
+            height: 35px;
+            font-size: 30px;
+        }
+
+         #circle {
+        height: 300px;
+        width: 300px;
+        margin: -10px auto auto auto;
+        }
+     
+        .Malle {
+            width: 100%;
+            height: auto;
+        }
+
+        #Katze{
+            width: 100%;
+            height: auto;
         }
     }
 
