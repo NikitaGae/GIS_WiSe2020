@@ -50,13 +50,15 @@
         color: red;
     }
 
-    #videos #bewertung{
-        position: absolute;
-        text-align: left;
+    #videos #ueberschrift{
+        text-align: center;
     }
 
     #umfragen #bewertung{
-        position: absolute;
+        text-align: center;
+    }
+
+    #umfragen{
         text-align: center;
     }
     
@@ -109,11 +111,6 @@
         margin-top: 10px;
     }
 
-    .ueberschrift{
-        font-weight: 700;
-        color: red;
-    }
-
     #videos {
         text-align: center;
         width: 800px;
@@ -127,6 +124,10 @@
         align-items: center;
         display: flex;
         flex-flow: column;
+    }
+
+    #div ~ p{
+        text-align: center;
     }
     
     input[type=text], select, textarea {
@@ -153,6 +154,10 @@
       
       input[type=submit]:hover {
         background-color: rgb(247, 6, 6);
+      }
+
+      #i2 + #p2 {
+          color: royalblue;
       }
       
       .container {
@@ -206,7 +211,7 @@
             #portfolio{
                 padding-top: 40%;
                 font-size: 70px;
-                margin-bottom: 70px;
+                margin-bottom: 40px;
             }
     
             #dateien{
@@ -220,7 +225,7 @@
         
             #videos {
                 text-align: center;
-                width: 800px;
+                width: 100%;
             }
         
             #videos video{
@@ -272,12 +277,12 @@
 
         #videos {
             text-align: center;
-            width: 200px;
+            width: 600px;
     
         }
     
         #videos video{
-            width: 300px;
+            width: 600px;
         }
 
 
