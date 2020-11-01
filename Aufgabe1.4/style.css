@@ -38,7 +38,19 @@
         font-weight: 700;
         color: red;
     }
+
+    #ich #ich2{
+        text-align: center;
+        width: 150px;
+        height: 200px;
+    }
+
+    #ich2{
+        width: 150px;
+        height: 200px;
+    }
     
+
     .active{
         color:rgb(247, 6, 6)
     }
