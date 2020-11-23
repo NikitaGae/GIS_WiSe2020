@@ -1,0 +1,73 @@
+body{
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  margin: auto;
+  align-items: center;
+  display: flex;
+}
+
+#buttons{
+  padding-top: 10px;
+  display: flex;
+  flex-flow: row;
+}
+
+
+#b1{
+  display: flex;
+  margin: auto;
+  width: 100px;
+  height: 50px;
+  border: 3px solid green;
+  padding: 10px;
+}
+
+#b2{
+  display: flex;
+  margin: auto;
+  width: 100px;
+  height: 50px;
+  border: 3px solid green;
+  padding: 10px;
+}
+
+#dB1{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100px;
+  height: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#dB2{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100px;
+  height: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#streusel{
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+  top: 100px;
+}
+
+#dStreusel{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  top: 2000px;
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+}
