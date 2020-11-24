@@ -86,26 +86,35 @@ namespace Aufgabe2_3 {
     document.getElementById("b2").addEventListener("click", tausch);
     document.getElementById("b1").addEventListener("click", tausch2);
     document.getElementById("b1").addEventListener("click", tausch3);
+/*
+    function finalTausch(_event: Event): void {
+        let target: HTMLButtonElement = (<HTMLButtonElement>_event.currentTarget);
+        let targetId: String = target.getAttribute("id");
 
-        
-    
+        if (targetId == "b1") {
+            let aBild: HTMLImageElement = <HTMLImageElement> document.getElementById("bilder");
+            
+        }
+    } */
+            //typ number reihenfolge arrays
+
     function tausch(): void {
-        document.getElementById("dDuenn").setAttribute("src", "dick.png");
-        let el: HTMLElement = document.querySelector("#duenn");
+        document.getElementById("dBilder").setAttribute("src", "dick.png");
+        let el: HTMLElement = document.querySelector("#bilder");
         el.dataset.name = "breit";
         console.log(el.dataset.name);
         console.log(breit);
     }
     function tausch2(): void {
-        document.getElementById("dDuenn").setAttribute("src", "dünn.png");
-        let el: HTMLElement = document.querySelector("#duenn");
+        document.getElementById("dBilder").setAttribute("src", "dünn.png");
+        let el: HTMLElement = document.querySelector("#bilder");
         el.dataset.name = "schmal";
         console.log(el.dataset.name);
         console.log(schmal);
     }
     function tausch3(): void {
-        document.getElementById("dDuenn").setAttribute("src", "normal.png");
-        let el: HTMLElement = document.querySelector("#duenn");
+        document.getElementById("dBilder").setAttribute("src", "normal.png");
+        let el: HTMLElement = document.querySelector("#bilder");
         el.dataset.name = "mittel";
         console.log(el.dataset.name);
         console.log(mittel);

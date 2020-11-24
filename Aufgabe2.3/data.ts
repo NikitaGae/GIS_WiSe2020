@@ -23,8 +23,6 @@ namespace Aufgabe2_3 {
         Koerper: Koerper;
         Beine: Beine;
     }
-
-
     export let breit: Kopf = { name: "Breit", umfang: 150, gewicht: 300 }; // Vanille.preis
     export let schmal: Kopf = { name: "Schmal", umfang: 50, gewicht: 250 }; // Vanille.preis
     export let mittel: Kopf = { name: "Mittel", umfang: 100, gewicht: 200 }; // Vanille.preis
