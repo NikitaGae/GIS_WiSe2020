@@ -1,53 +1,64 @@
 namespace Aufgabe2_3 {
 
-    tausch();
-    document.getElementById("breit").addEventListener("click", tausch);
-    document.getElementById("schmaler").addEventListener("click", tausch2);
-    document.getElementById("mittel").addEventListener("click", tausch3);
+    let mensch: Menschen = konvertierer();
 
+    document.getElementById("breit").addEventListener("click", function() {tausch(mensch.allKopf[0]); });
+    document.getElementById("breit").addEventListener("click", function() {tausch2(mensch.allKopf[1]); });
+    document.getElementById("breit").addEventListener("click", function() {tausch3(mensch.allKopf[2]); });
 
-
-    function tausch(): void {
-
-        /* let el: HTMLImageElement = document.createElement("img");
-        el.id = "test";
-        document.getElementById("bilder").appendChild(el);
-        el.setAttribute("src", "dick.png");
-        el.dataset.name = "breit"; */
-
-        document.getElementById("bilder").setAttribute("src", "dick.png");
+    function tausch(_Kopf: Kopf): void {
+        document.getElementById("bilder").setAttribute("src", _Kopf.source);
         let el: HTMLImageElement = document.querySelector("#bilder");
         el.dataset.name = "breit";
         console.log(el.dataset.name);
-        console.log(breit);
     }
 
-    function tausch2(): void {
-        
-            /* let el: HTMLImageElement = document.createElement("img");
-            el.id = "test";
-            document.getElementById("bilder").appendChild(el);
-            el.setAttribute("src", "dünn.png");
-            el.dataset.name = "schmal"; */
-
-        document.getElementById("bilder").setAttribute("src", "dünn.png");
-        let el: HTMLImageElement = document.querySelector("#bilder");
-        el.dataset.name = "schmal";
-        console.log(el.dataset.name);
-        console.log(schmal);
-    }
-
-    function tausch3(): void {
-        /* let el: HTMLImageElement = document.createElement("img");
-        el.id = "test";
-        document.getElementById("bilder").appendChild(el);
-        el.setAttribute("src", "dünn.png");
-        el.dataset.name = "schmal"; */
-
-        document.getElementById("bilder").setAttribute("src", "normal.png");
+    function tausch2(_Kopf: Kopf): void {
+        document.getElementById("bilder").setAttribute("src", _Kopf.source);
         let el: HTMLImageElement = document.querySelector("#bilder");
         el.dataset.name = "mittel";
         console.log(el.dataset.name);
-        console.log(mittel);
+    }
+
+    function tausch3(_Kopf: Kopf): void {
+        document.getElementById("bilder").setAttribute("src", _Kopf.source);
+        let el: HTMLImageElement = document.querySelector("#bilder");
+        el.dataset.name = "schmal";
+        console.log(el.dataset.name);
+    } 
+
+    /* let breitJSON: string = JSON.stringify(breit);
+    console.log(breitJSON); // '{"name":"John", "age": 31, "city": "New York"}'
+
+    let schmalJSON: string = JSON.stringify(schmal);
+    console.log(schmalJSON); // '{"name":"John", "age": 31, "city": "New York"}'
+
+    let mittelJSON: string = JSON.stringify(mittel);
+    console.log(mittelJSON); // '{"name":"John", "age": 31, "city": "New York"}'
+
+    let korpulentJSON: string = JSON.stringify(korpulent);
+    console.log(korpulentJSON); // '{"name":"John", "age": 31, "city": "New York"}'
+
+    let duennJSON: string = JSON.stringify(duenn);
+    console.log(duennJSON); // '{"name":"John", "age": 31, "city": "New York"}'
+
+    let normalJSON: string = JSON.stringify(normal);
+    console.log(normalJSON); // '{"name":"John", "age": 31, "city": "New York"}'
+
+    let mueskeloesJSON: string = JSON.stringify(mueskeloes);
+    console.log(mueskeloesJSON); // '{"name":"John", "age": 31, "city": "New York"}'
+
+    let standardJSON: string = JSON.stringify(standard);
+    console.log(standardJSON); // '{"name":"John", "age": 31, "city": "New York"}'
+
+    let dickJSON: string = JSON.stringify(dick);
+    console.log(dickJSON); // '{"name":"John", "age": 31, "city": "New York"}'  */
+
+    konvertierer();
+
+    function konvertierer(): Menschen {
+        let m2: Menschen = JSON.parse(m1JSON);
+        console.log(m2.allKopf[0].name);
+        return m2;
     }
 }
