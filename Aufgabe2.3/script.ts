@@ -2,63 +2,42 @@ namespace Aufgabe2_3 {
 
     let mensch: Menschen = konvertierer();
 
-    document.getElementById("breit").addEventListener("click", function() {tausch(mensch.allKopf[0]); });
-    document.getElementById("breit").addEventListener("click", function() {tausch2(mensch.allKopf[1]); });
-    document.getElementById("breit").addEventListener("click", function() {tausch3(mensch.allKopf[2]); });
+    document.getElementById("erster").addEventListener("click", function(): void {wechseln(mensch.allKopf[0]); });
+    document.getElementById("zweiter").addEventListener("click", function(): void {wechseln(mensch.allKopf[1]); });
+    document.getElementById("dritter").addEventListener("click", function(): void {wechseln(mensch.allKopf[2]); });
+    window.addEventListener("load", laden);
 
-    function tausch(_Kopf: Kopf): void {
-        document.getElementById("bilder").setAttribute("src", _Kopf.source);
-        let el: HTMLImageElement = document.querySelector("#bilder");
-        el.dataset.name = "breit";
-        console.log(el.dataset.name);
+    function laden(): void {
+        wechseln(mensch.allKopf[0]);
     }
 
-    function tausch2(_Kopf: Kopf): void {
-        document.getElementById("bilder").setAttribute("src", _Kopf.source);
-        let el: HTMLImageElement = document.querySelector("#bilder");
-        el.dataset.name = "mittel";
-        console.log(el.dataset.name);
+    function wechseln(_Kopf: Kopf): void {
+
+        switch (_Kopf.name) {
+            case mensch.allKopf[0].name: 
+                    document.getElementById("bilder").setAttribute("src", _Kopf.source);
+                    localStorage.setItem("Name", "Erster");
+                    console.log(localStorage.getItem("Name"));
+                    break;
+            case mensch.allKopf[1].name: 
+                    document.getElementById("bilder").setAttribute("src", _Kopf.source);
+                    localStorage.setItem("Name", "Zweiter");
+                    console.log(localStorage.getItem("Name"));
+                    break;
+            case mensch.allKopf[2].name: 
+                    document.getElementById("bilder").setAttribute("src", _Kopf.source);
+                    localStorage.setItem("Name", "Dritter");
+                    console.log(localStorage.getItem("Name"));
+                    break;
+        }
     }
-
-    function tausch3(_Kopf: Kopf): void {
-        document.getElementById("bilder").setAttribute("src", _Kopf.source);
-        let el: HTMLImageElement = document.querySelector("#bilder");
-        el.dataset.name = "schmal";
-        console.log(el.dataset.name);
-    } 
-
-    /* let breitJSON: string = JSON.stringify(breit);
-    console.log(breitJSON); // '{"name":"John", "age": 31, "city": "New York"}'
-
-    let schmalJSON: string = JSON.stringify(schmal);
-    console.log(schmalJSON); // '{"name":"John", "age": 31, "city": "New York"}'
-
-    let mittelJSON: string = JSON.stringify(mittel);
-    console.log(mittelJSON); // '{"name":"John", "age": 31, "city": "New York"}'
-
-    let korpulentJSON: string = JSON.stringify(korpulent);
-    console.log(korpulentJSON); // '{"name":"John", "age": 31, "city": "New York"}'
-
-    let duennJSON: string = JSON.stringify(duenn);
-    console.log(duennJSON); // '{"name":"John", "age": 31, "city": "New York"}'
-
-    let normalJSON: string = JSON.stringify(normal);
-    console.log(normalJSON); // '{"name":"John", "age": 31, "city": "New York"}'
-
-    let mueskeloesJSON: string = JSON.stringify(mueskeloes);
-    console.log(mueskeloesJSON); // '{"name":"John", "age": 31, "city": "New York"}'
-
-    let standardJSON: string = JSON.stringify(standard);
-    console.log(standardJSON); // '{"name":"John", "age": 31, "city": "New York"}'
-
-    let dickJSON: string = JSON.stringify(dick);
-    console.log(dickJSON); // '{"name":"John", "age": 31, "city": "New York"}'  */
 
     konvertierer();
 
     function konvertierer(): Menschen {
         let m2: Menschen = JSON.parse(m1JSON);
         console.log(m2.allKopf[0].name);
+        //console.log(m2.allBeine[0].name);
         return m2;
     }
 }

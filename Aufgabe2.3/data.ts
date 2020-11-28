@@ -7,10 +7,12 @@ namespace Aufgabe2_3 {
 
     export interface Koerper {
         name: string;
+        source: string;
     }
 
     export interface Beine {
         name: string;
+        source: string;
     }
 
     export interface Menschen {
@@ -19,18 +21,18 @@ namespace Aufgabe2_3 {
         allBeine: Beine[];
     }
 
-    let breit: Kopf = { name: "Breit", source: "dick.png"};
-    let schmal: Kopf = { name: "Schmal", source: "dünn.png"};
-    let mittel: Kopf = { name: "Mittel", source: "normal.png"};
-    let allKopf: Kopf[] = [breit, schmal, mittel];
-    let korpulent: Koerper = { name: "Korpulent" };
-    let duenn: Koerper = { name: "Dünn" };
-    let normal: Koerper = { name: "Normal" };
-    let allKoerper: Koerper[] = [korpulent, duenn, normal];
-    let mueskeloes: Beine = { name: "Muskelös"};
-    let standard: Beine = { name: "Standard" };
-    let dick: Beine = { name: "Dick" };
-    let allBeine: Beine[] = [mueskeloes, standard, dick];
+    let ersterKopf: Kopf = { name: "Erster", source: "Kopf1.png"};
+    let zweiterKopf: Kopf = { name: "Zweiter", source: "Kopf2.png"};
+    let dritterKopf: Kopf = { name: "Dritter", source: "Kopf3.png"};
+    let allKopf: Kopf[] = [ersterKopf, zweiterKopf, dritterKopf];
+    let ersterKoerper: Koerper = { name: "Erster", source: "Koerper1.png" };
+    let zweiterKoerper: Koerper = { name: "Zweiter", source: "Koerper2.png" };
+    let dritterKoerper: Koerper = { name: "Dritter", source: "Koerper3.png" };
+    let allKoerper: Koerper[] = [ersterKoerper, zweiterKoerper, dritterKoerper];
+    let erstenBeine: Beine = { name: "Ersten", source: "Koerper1.png"};
+    let zweitenBeine: Beine = { name: "Zweiten", source: "Koerper2.png" };
+    let drittenBeine: Beine = { name: "Dritte", source: "Koerper3.png" };
+    let allBeine: Beine[] = [erstenBeine, zweitenBeine, drittenBeine];
     let m1: Menschen = {allKopf, allKoerper, allBeine};
 
     export let m1JSON: string = JSON.stringify(m1);
