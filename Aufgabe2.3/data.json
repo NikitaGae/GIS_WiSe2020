@@ -1,0 +1,15 @@
+{
+
+    "allKopf": [{ "name": "Erster",  "source": "Kopf1.png", "typ": "Kopf"}, 
+                {"name": "Zweiter", "source": "Kopf2.png", "typ": "Kopf"}, 
+                { "name": "Dritter", "source": "Kopf3.png", "typ": "Kopf"}],
+
+    "allKoerper": [{ "name": "Erster", "source": "Koerper1.png" , "typ": "Körper"}, 
+                    { "name": "Zweiter", "source": "Koerper2.png" , "typ": "Körper"}, 
+                    {" name": "Dritter", "source": "Koerper3.png" , "typ": "Körper"}],
+
+    "allBeine": [{ "name": "Erstes", "source": "Beine1.png", "typ": "Bein"}, 
+                { "name": "Zweites", "source": "Beine2.png" , "typ": "Bein"}, 
+                { "name": "Drittes", "source": "Beine3.png" , "typ": "Bein"}]
+
+}

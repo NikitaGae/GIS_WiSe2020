@@ -1,19 +1,31 @@
 "use strict";
-var Aufgabe2_3;
-(function (Aufgabe2_3) {
-    let ersterKopf = { name: "Erster", source: "Kopf1.png" };
-    let zweiterKopf = { name: "Zweiter", source: "Kopf2.png" };
-    let dritterKopf = { name: "Dritter", source: "Kopf3.png" };
-    let allKopf = [ersterKopf, zweiterKopf, dritterKopf];
-    let ersterKoerper = { name: "Erster", source: "Koerper1.png" };
-    let zweiterKoerper = { name: "Zweiter", source: "Koerper2.png" };
-    let dritterKoerper = { name: "Dritter", source: "Koerper3.png" };
-    let allKoerper = [ersterKoerper, zweiterKoerper, dritterKoerper];
-    let erstenBeine = { name: "Ersten", source: "Koerper1.png" };
-    let zweitenBeine = { name: "Zweiten", source: "Koerper2.png" };
-    let drittenBeine = { name: "Dritte", source: "Koerper3.png" };
-    let allBeine = [erstenBeine, zweitenBeine, drittenBeine];
-    let m1 = { allKopf, allKoerper, allBeine };
-    Aufgabe2_3.m1JSON = JSON.stringify(m1);
-})(Aufgabe2_3 || (Aufgabe2_3 = {}));
+/* namespace Aufgabe2_3 {
+    export interface KTeil {
+        name: string;
+        source: string;
+        typ: string;
+    }
+
+    export interface Menschen {
+        allKopf: KTeil[];
+        allKoerper: KTeil[];
+        allBeine: KTeil[];
+    }
+
+    let ersterKopf: KTeil = { name: "Erster",  source: "Kopf1.png", typ: "Kopf"};
+    let zweiterKopf: KTeil = { name: "Zweiter", source: "Kopf2.png", typ: "Kopf"};
+    let dritterKopf: KTeil = { name: "Dritter", source: "Kopf3.png", typ: "Kopf"};
+    let allKopf: KTeil[] = [ersterKopf, zweiterKopf, dritterKopf];
+    let ersterKoerper: KTeil = { name: "Erster", source: "Koerper1.png" , typ: "Körper"};
+    let zweiterKoerper: KTeil = { name: "Zweiter", source: "Koerper2.png" , typ: "Körper"};
+    let dritterKoerper: KTeil = { name: "Dritter", source: "Koerper3.png" , typ: "Körper"};
+    let allKoerper: KTeil[] = [ersterKoerper, zweiterKoerper, dritterKoerper];
+    let erstenBeine: KTeil = { name: "Erstes", source: "Beine1.png", typ: "Bein"};
+    let zweitenBeine: KTeil = { name: "Zweites", source: "Beine2.png" , typ: "Bein"};
+    let drittenBeine: KTeil = { name: "Drittes", source: "Beine3.png" , typ: "Bein"};
+    let allBeine: KTeil[] = [erstenBeine, zweitenBeine, drittenBeine];
+    let m1: Menschen = {allKopf, allKoerper, allBeine};
+
+    export let m1JSON: string = JSON.stringify(m1);
+} */ 
 //# sourceMappingURL=data.js.map

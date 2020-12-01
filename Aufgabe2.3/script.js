@@ -2,37 +2,56 @@
 var Aufgabe2_3;
 (function (Aufgabe2_3) {
     let mensch = konvertierer();
-    document.getElementById("erster").addEventListener("click", function () { wechseln(mensch.allKopf[0]); });
-    document.getElementById("zweiter").addEventListener("click", function () { wechseln(mensch.allKopf[1]); });
-    document.getElementById("dritter").addEventListener("click", function () { wechseln(mensch.allKopf[2]); });
     window.addEventListener("load", laden);
-    function laden() {
-        wechseln(mensch.allKopf[0]);
-    }
-    function wechseln(_Kopf) {
-        switch (_Kopf.name) {
-            case mensch.allKopf[0].name:
-                document.getElementById("bilder").setAttribute("src", _Kopf.source);
-                localStorage.setItem("Name", "Erster");
-                console.log(localStorage.getItem("Name"));
+    async function laden() {
+        let response = await fetch("data.json");
+        let data = await response.json();
+        let location = window.location.pathname.split("/");
+        let teil = location[location.length - 1];
+        console.log(teil);
+        switch (teil) {
+            case "index.html":
+                wechseln(mensch.allKopf[0]);
+                createButtons(mensch.allKopf);
                 break;
-            case mensch.allKopf[1].name:
-                document.getElementById("bilder").setAttribute("src", _Kopf.source);
-                localStorage.setItem("Name", "Zweiter");
-                console.log(localStorage.getItem("Name"));
+            case "koerper.html":
+                wechseln(mensch.allKoerper[0]);
+                createButtons(mensch.allKoerper);
                 break;
-            case mensch.allKopf[2].name:
-                document.getElementById("bilder").setAttribute("src", _Kopf.source);
-                localStorage.setItem("Name", "Dritter");
-                console.log(localStorage.getItem("Name"));
+            case "beine.html":
+                wechseln(mensch.allBeine[0]);
+                createButtons(mensch.allBeine);
+                break;
+            case "final.html":
+                zusammensetzen();
                 break;
         }
     }
+    function zusammensetzen() {
+        console.log(localStorage.getItem("Kopf"));
+        console.log(localStorage.getItem("Körper"));
+        console.log(localStorage.getItem("Bein"));
+        document.getElementById("BildKoerperteil").setAttribute("src", localStorage.getItem("Kopf"));
+        document.getElementById("BildKoerperteil1").setAttribute("src", localStorage.getItem("Körper"));
+        document.getElementById("BildKoerperteil2").setAttribute("src", localStorage.getItem("Bein"));
+    }
+    function createButtons(_KTeilArray) {
+        let button = document.getElementById("dropdown-content");
+        for (let i = 0; i < _KTeilArray.length; i++) {
+            let newA = document.createElement("a");
+            newA.id = _KTeilArray[i].typ + i;
+            newA.addEventListener("click", function () { wechseln(_KTeilArray[i]); });
+            newA.innerHTML = _KTeilArray[i].name + " " + _KTeilArray[i].typ;
+            button.appendChild(newA);
+        }
+    }
+    function wechseln(_KoerperTeile) {
+        document.getElementById("BildKoerperteil").setAttribute("src", _KoerperTeile.source);
+        localStorage.setItem(_KoerperTeile.typ, _KoerperTeile.source);
+    }
     konvertierer();
     function konvertierer() {
-        let m2 = JSON.parse(Aufgabe2_3.m1JSON);
-        console.log(m2.allKopf[0].name);
-        //console.log(m2.allBeine[0].name);
+        let m2 = JSON.parse("allKopf");
         return m2;
     }
 })(Aufgabe2_3 || (Aufgabe2_3 = {}));
