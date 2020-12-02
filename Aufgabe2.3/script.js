@@ -1,11 +1,13 @@
 "use strict";
 var Aufgabe2_3;
 (function (Aufgabe2_3) {
-    let mensch = konvertierer();
-    window.addEventListener("load", laden);
-    async function laden() {
-        let response = await fetch("data.json");
-        let data = await response.json();
+    let mensch;
+    window.addEventListener("load", work);
+    async function work() {
+        await konvertierer();
+        await laden();
+    }
+    function laden() {
         let location = window.location.pathname.split("/");
         let teil = location[location.length - 1];
         console.log(teil);
@@ -46,13 +48,16 @@ var Aufgabe2_3;
         }
     }
     function wechseln(_KoerperTeile) {
+        console.log(_KoerperTeile);
         document.getElementById("BildKoerperteil").setAttribute("src", _KoerperTeile.source);
         localStorage.setItem(_KoerperTeile.typ, _KoerperTeile.source);
     }
-    konvertierer();
-    function konvertierer() {
-        let m2 = JSON.parse("allKopf");
-        return m2;
+    async function konvertierer() {
+        let response = await fetch("data.json");
+        let json = JSON.stringify(await response.json());
+        mensch = JSON.parse(json);
+        console.log(mensch);
+        return mensch;
     }
 })(Aufgabe2_3 || (Aufgabe2_3 = {}));
 //# sourceMappingURL=script.js.map
