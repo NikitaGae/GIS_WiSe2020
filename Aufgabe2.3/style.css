@@ -21,6 +21,12 @@ body{
   top: 80px;
 }
 
+#meldung {
+  position: relative;
+  width: 400px;
+  height: 100px;
+}
+
 #speichern{
   background-color: #4CAF50;
   color: white;
