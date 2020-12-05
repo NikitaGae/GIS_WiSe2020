@@ -1,9 +1,12 @@
 namespace Aufgabe2_3 {
-
+    
+    //deklerationen
     let mensch: Menschen;
     const element: HTMLElement = document.body;
 
     window.addEventListener("load", work);
+
+    //interfaces
 
     export interface KTeil {
         name: string;
@@ -22,10 +25,14 @@ namespace Aufgabe2_3 {
         message: string;
     }
 
+    //damit konvertierer und laden richtig ablaufen
+
     async function work(): Promise<void> {
         await konvertierer();
         laden();
     }
+
+    //soll erkennen auf welcher seite man sich befindet und damit immer das erste bild angezeigt wird 
 
     function laden(): void {
 
@@ -52,6 +59,8 @@ namespace Aufgabe2_3 {
         }
     }
 
+    //Bilder werden im sessionStorage abgespeichert und auf der endseite wieder zusammengesetzt
+
     function zusammensetzen(): void {
         console.log(sessionStorage.getItem("Kopf"));
         console.log(sessionStorage.getItem("Körper"));
@@ -61,6 +70,8 @@ namespace Aufgabe2_3 {
         document.getElementById("bildKoerperteil1").setAttribute("src", sessionStorage.getItem("Körper"));
         document.getElementById("bildKoerperteil2").setAttribute("src", sessionStorage.getItem("Bein"));
     }
+    
+    //Je nachdem wie viele Körperteile es gibt werden Buttons erstellt 
 
     function createButtons(_KTeilArray: KTeil[]): void {
         let button: HTMLDivElement = <HTMLDivElement>document.getElementById("dropdown-content");
@@ -73,11 +84,15 @@ namespace Aufgabe2_3 {
         }
     }
 
+    //Nimmt das bild aus der json um es dann in der html anzuzeigen
+
     function wechseln(_KoerperTeile: KTeil): void {
         console.log(_KoerperTeile);
         document.getElementById("bildKoerperteil").setAttribute("src", _KoerperTeile.source);
         sessionStorage.setItem(_KoerperTeile.typ, _KoerperTeile.source);
     }
+
+    //serverkommunikation um error oder erfolgreiche kommunikation anzuzeigen
 
     async function communicate(_url: RequestInfo): Promise<void> {
         let query: URLSearchParams = new URLSearchParams(<any>sessionStorage);
@@ -103,6 +118,8 @@ namespace Aufgabe2_3 {
             element.appendChild(p1);
         }
     }
+
+    //von json in ts umwandeln
 
     async function konvertierer(): Promise<Menschen> {
         let response: Response = await fetch("data.json");
