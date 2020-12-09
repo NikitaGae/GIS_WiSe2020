@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "@types/node": "^14.14.11"
+  },
+  "name": "testgiswise2020nikita",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "GIS_WiSe2020"
+  },
+  "keywords": [
+    "gis"
+  ],
+  "author": "nikita",
+  "license": "ISC",
+  "description": ""
+}
