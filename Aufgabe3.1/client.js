@@ -8,8 +8,8 @@ var P_3_1Server;
     knopfHTML.addEventListener("click", work);
     knopfJSON.addEventListener("click", work);
     async function work(_event) {
-        //let url: string = "https://testgiswise2020.herokuapp.com";
-        let url = "localhorst:8100";
+        let url = "https://testgiswise2020.herokuapp.com";
+        //let url: string = "localhorst:8100";
         let target = _event.currentTarget;
         if (target.id == "knopfHTML") {
             url += "/html";

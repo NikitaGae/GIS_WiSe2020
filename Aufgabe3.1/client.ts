@@ -6,8 +6,8 @@ export namespace P_3_1Server {
     knopfJSON.addEventListener("click", work);
 
     async function work(_event: Event): Promise<void> {
-        //let url: string = "https://testgiswise2020.herokuapp.com";
-        let url: string = "localhorst:8100";
+        let url: string = "https://testgiswise2020.herokuapp.com";
+        //let url: string = "localhorst:8100";
         let target: HTMLButtonElement = <HTMLButtonElement>_event.currentTarget;
 
         if (target.id == "knopfHTML") {
