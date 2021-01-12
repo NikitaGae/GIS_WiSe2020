@@ -19,8 +19,8 @@ export namespace P_3_1Server {
     if (!port)
         port = 8100;
 
-    let databaseUrl: string = "mongodb://localhost:27017";
-    //let databaseUrl: string = "mongodb+srv://<Testuser>:<Testuser>@nikita-gis-ist-geil.gl0tb.mongodb.net/<dbname>?retryWrites=true&w=majority";
+    //let databaseUrl: string = "mongodb://localhost:27017";
+    let databaseUrl: string = "mongodb+srv://<Testuser>:<Testuser>@nikita-gis-ist-geil.gl0tb.mongodb.net/<dbname>?retryWrites=true&w=majority";
     startServer(port);
     connectToDatabase(databaseUrl);
 
@@ -46,7 +46,7 @@ export namespace P_3_1Server {
         log = mongoClient.db("test").collection("Students");
         console.log("Database connection ", log != undefined);
     }
-
+    //function zum vergleichen der eingegeben daten
     async function vergleichen(_url: string): Promise<boolean> {
 
         let pathSplit: string[] = _url.split("?");
@@ -70,7 +70,7 @@ export namespace P_3_1Server {
         return false;
     }
 
-
+    //hier werden die server antworten geschrieben je nachdem auf welcher html seite wir uns befinden
     async function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): Promise<void> {
         console.log("I hear voices!");
         _response.setHeader("content-type", "text/html; charset=utf-8");

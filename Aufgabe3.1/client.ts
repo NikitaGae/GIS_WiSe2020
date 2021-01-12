@@ -1,29 +1,9 @@
 namespace P_3_1Server {
 
     let knopf: HTMLButtonElement = <HTMLButtonElement>document.getElementById("knopf");
-    //let knopfRegistrieren: HTMLButtonElement = <HTMLButtonElement>document.getElementById("knopfRegistrieren");
     knopf.addEventListener("click", laden);
-    //knopfRegistrieren.addEventListener("click", work);
 
-    /* async function work(_event: Event): Promise<void> {
-        //let url: string = "https://testgiswise2020.herokuapp.com";
-        let url: string = "http://localhost:8100";
-        let target: HTMLButtonElement = <HTMLButtonElement>_event.currentTarget;
-
-        if (target.id == "knopfLogin") {
-            console.log(url);
-            url += "/login";
-        } else if (target.id == "knopfRegistrieren") {
-            console.log(url);
-            url += "/registrieren";
-        }
-        await communicate(url);
-    } */
-
-    /*  let antwortJSON: string = await response.text();
-            let jsonString: string = JSON.parse(antwortJSON);
-            console.log("antwort", jsonString); */
-
+    //hier werden die server antworten in das div mit der id text geschrieben
     async function communicate(_url: RequestInfo): Promise<void> {
         let formData: FormData = new FormData(document.forms[0]);
         let query: URLSearchParams = new URLSearchParams(<any>formData);
@@ -41,14 +21,13 @@ namespace P_3_1Server {
             (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
         }
     }
-
+    //hier soll er je nach  html seite registrieren anmelden oder nutzer in die url anhängen damit später erkannt werden kann wo man ist
     async function laden(): Promise<void> {
 
         let location: string[] = window.location.pathname.split("/");
         let teil: string = location[location.length - 1];
-        console.log(teil);
-        //let url: string = "https://testgiswise2020.herokuapp.com";
-        let url: string = "http://localhost:8100";
+        let url: string = "https://testgiswise2020.herokuapp.com";
+        //let url: string = "http://localhost:8100";
 
         switch (teil) {
             case "index.html":

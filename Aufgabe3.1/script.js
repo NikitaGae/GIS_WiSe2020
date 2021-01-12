@@ -13,8 +13,8 @@ var P_3_1Server;
     let port = Number(process.env.PORT);
     if (!port)
         port = 8100;
-    let databaseUrl = "mongodb://localhost:27017";
-    //let databaseUrl: string = "mongodb+srv://<Testuser>:<Testuser>@nikita-gis-ist-geil.gl0tb.mongodb.net/<dbname>?retryWrites=true&w=majority";
+    //let databaseUrl: string = "mongodb://localhost:27017";
+    let databaseUrl = "mongodb+srv://<Testuser>:<Testuser>@nikita-gis-ist-geil.gl0tb.mongodb.net/<dbname>?retryWrites=true&w=majority";
     startServer(port);
     connectToDatabase(databaseUrl);
     function startServer(_port) {
