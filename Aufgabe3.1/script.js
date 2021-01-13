@@ -12,8 +12,9 @@ var P_3_1Server;
     let port = Number(process.env.PORT);
     if (!port)
         port = 8100;
-    let databaseUrl = "mongodb://localhost:27017";
+    //let databaseUrl: string = "mongodb://localhost:27017";
     //let databaseUrl: string = "https://mongodbnetbrowser.herokuapp.com/?u=Testuser&p=Testuser&a=nikita-gis-ist-geil.gl0tb.mongodb.net&n=test&c=Students";
+    let databaseUrl = "mongodb+srv://<Testuser>:<Testuser>@nikita-gis-ist-geil.gl0tb.mongodb.net/<Nikita-GIS-IST-GEIL>?retryWrites=true&w=majority";
     startServer(port);
     connectToDatabase(databaseUrl);
     function startServer(_port) {
@@ -84,6 +85,7 @@ var P_3_1Server;
                 _response.write(logInArrayJSON);
             }
         }
+        _response.write("test");
         _response.end();
     }
 })(P_3_1Server = exports.P_3_1Server || (exports.P_3_1Server = {}));
