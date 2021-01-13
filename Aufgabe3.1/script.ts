@@ -47,7 +47,7 @@ export namespace P_3_1Server {
         console.log("Database connection ", log != undefined);
     }
     //function zum vergleichen der eingegeben daten
-    async function vergleichen(_url: string): Promise<boolean> {
+    /* async function vergleichen(_url: string): Promise<boolean> {
 
         let pathSplit: string[] = _url.split("?");
         let daten: string[] = pathSplit[1].split("&");
@@ -68,10 +68,10 @@ export namespace P_3_1Server {
             }
         }
         return false;
-    }
+    } */
 
     //hier werden die server antworten geschrieben je nachdem auf welcher html seite wir uns befinden
-    async function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): Promise<void> {
+    function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): void {
         console.log("I hear voices!");
         _response.setHeader("content-type", "text/html; charset=utf-8");
         _response.setHeader("Access-Control-Allow-Origin", "*");
