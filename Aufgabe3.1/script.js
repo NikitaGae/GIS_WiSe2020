@@ -4,7 +4,6 @@ exports.P_3_1Server = void 0;
 const Http = require("http");
 const Url = require("url");
 const Mongo = require("mongodb");
-//https://mongodbnetbrowser.herokuapp.com/?u=Testuser&p=Testuser&a=nikita-gis-ist-geil.gl0tb.mongodb.net&n=test&c=Students
 var P_3_1Server;
 (function (P_3_1Server) {
     let log;
