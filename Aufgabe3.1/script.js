@@ -57,7 +57,7 @@ var P_3_1Server;
         return false;
     } */
     //hier werden die server antworten geschrieben je nachdem auf welcher html seite wir uns befinden
-    async function handleRequest(_request, _response) {
+    function handleRequest(_request, _response) {
         console.log("I hear voices!");
         _response.setHeader("content-type", "text/html; charset=utf-8");
         _response.setHeader("Access-Control-Allow-Origin", "*");
