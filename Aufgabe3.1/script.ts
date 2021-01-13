@@ -21,7 +21,8 @@ export namespace P_3_1Server {
 
     //let databaseUrl: string = "mongodb://localhost:27017";
     //let databaseUrl: string = "https://mongodbnetbrowser.herokuapp.com/?u=Testuser&p=Testuser&a=nikita-gis-ist-geil.gl0tb.mongodb.net&n=test&c=Students";
-    let databaseUrl: string = "mongodb+srv://<Testuser>:<Testuser>@nikita-gis-ist-geil.gl0tb.mongodb.net/<Nikita-GIS-IST-GEIL>?retryWrites=true&w=majority";
+    let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
+
     startServer(port);
     connectToDatabase(databaseUrl);
 
