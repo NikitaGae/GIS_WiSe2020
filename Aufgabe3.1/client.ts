@@ -10,7 +10,10 @@ namespace P_3_1Server {
         _url = _url + "?" + query.toString();
         let response: Response = await fetch(_url);
 
-        if (_url.includes("/login")) {
+        let antwortHTML: string = await response.text();
+        (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
+
+        /* if (_url.includes("/login")) {
             let antwortHTML: string = await response.text();
             (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
         } else if (_url.includes("/registrieren")) {
@@ -19,7 +22,7 @@ namespace P_3_1Server {
         } else if (_url.includes("/nutzer")) {
             let antwortHTML: string = await response.text();
             (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
-        }
+        } */
     }
     //hier soll er je nach  html seite registrieren anmelden oder nutzer in die url anhängen damit später erkannt werden kann wo man ist
     async function laden(): Promise<void> {

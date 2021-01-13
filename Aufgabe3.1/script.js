@@ -4,7 +4,6 @@ exports.P_3_1Server = void 0;
 const Http = require("http");
 const Url = require("url");
 const Mongo = require("mongodb");
-//mongodb+srv://<Testuser>:<Testuser>@nikita-gis-ist-geil.gl0tb.mongodb.net/<dbname>?retryWrites=true&w=majority
 //https://mongodbnetbrowser.herokuapp.com/?u=Testuser&p=Testuser&a=nikita-gis-ist-geil.gl0tb.mongodb.net&n=test&c=Students
 var P_3_1Server;
 (function (P_3_1Server) {
@@ -13,8 +12,8 @@ var P_3_1Server;
     let port = Number(process.env.PORT);
     if (!port)
         port = 8100;
-    //let databaseUrl: string = "mongodb://localhost:27017";
-    let databaseUrl = "mongodb+srv://<Testuser>:<Testuser>@nikita-gis-ist-geil.gl0tb.mongodb.net/<dbname>?retryWrites=true&w=majority";
+    let databaseUrl = "mongodb://localhost:27017";
+    //let databaseUrl: string = "https://mongodbnetbrowser.herokuapp.com/?u=Testuser&p=Testuser&a=nikita-gis-ist-geil.gl0tb.mongodb.net&n=test&c=Students";
     startServer(port);
     connectToDatabase(databaseUrl);
     function startServer(_port) {
@@ -34,6 +33,7 @@ var P_3_1Server;
         log = mongoClient.db("test").collection("Students");
         console.log("Database connection ", log != undefined);
     }
+    //function zum vergleichen der eingegeben daten
     async function vergleichen(_url) {
         let pathSplit = _url.split("?");
         let daten = pathSplit[1].split("&");
@@ -53,6 +53,7 @@ var P_3_1Server;
         }
         return false;
     }
+    //hier werden die server antworten geschrieben je nachdem auf welcher html seite wir uns befinden
     async function handleRequest(_request, _response) {
         console.log("I hear voices!");
         _response.setHeader("content-type", "text/html; charset=utf-8");

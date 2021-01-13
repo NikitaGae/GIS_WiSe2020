@@ -76,7 +76,7 @@ export namespace P_3_1Server {
         _response.setHeader("content-type", "text/html; charset=utf-8");
         _response.setHeader("Access-Control-Allow-Origin", "*");
 
-        if (_request.url) {
+        /* if (_request.url) {
 
             let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true);
             let path: String | null = url.pathname;
@@ -99,7 +99,8 @@ export namespace P_3_1Server {
                 let logInArrayJSON: string = JSON.stringify(logInArray);
                 _response.write(logInArrayJSON);
             }
-        }
+        } */
+        _response.write("test");
         _response.end();
     }
 }
