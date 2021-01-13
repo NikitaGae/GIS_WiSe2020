@@ -13,7 +13,6 @@ var P_3_1Server;
     if (!port)
         port = 8100;
     //let databaseUrl: string = "mongodb://localhost:27017";
-    //let databaseUrl: string = "https://mongodbnetbrowser.herokuapp.com/?u=Testuser&p=Testuser&a=nikita-gis-ist-geil.gl0tb.mongodb.net&n=test&c=Students";
     let databaseUrl = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
     startServer(port);
     connectToDatabase(databaseUrl);
@@ -43,9 +42,9 @@ var P_3_1Server;
         let ntzRegistration = daten[2].split("=");
         let logInArray = await log.find().toArray();
         for (let i = 0; i < logInArray.length; i++) {
-            if (ntzName[1] == (logInArray[i].name)) {
-                if (ntzFirstname[1] == (logInArray[i].firstname)) {
-                    if (ntzRegistration[1] == logInArray[i].registration) {
+            if (ntzName[1] == (logInArray[i].vorname)) {
+                if (ntzFirstname[1] == (logInArray[i].nachname)) {
+                    if (ntzRegistration[1] == logInArray[i].matrikelnummer) {
                         JSON.stringify(logInArray);
                         return true;
                     }
@@ -60,43 +59,32 @@ var P_3_1Server;
         _response.setHeader("content-type", "text/html; charset=utf-8");
         _response.setHeader("Access-Control-Allow-Origin", "*");
         if (_request.url) {
+            let logInArray = await log.find().toArray();
             let url = Url.parse(_request.url, true);
             let path = url.pathname;
             if (path == "/login") {
                 if (await vergleichen(url.path) == false) {
-                    _response.setHeader("content-type", "text/html; charset=utf-8");
-                    _response.setHeader("Access-Control-Allow-Origin", "*");
                     _response.write("User nicht gefunden überprüfen sie ihre eingabe");
                 }
                 else {
-                    _response.setHeader("content-type", "text/html; charset=utf-8");
-                    _response.setHeader("Access-Control-Allow-Origin", "*");
                     _response.write("User gefunden");
                 }
             }
             else if (path == "/registrieren") {
                 if (await vergleichen(url.path) == false) {
-                    _response.setHeader("content-type", "text/html; charset=utf-8");
-                    _response.setHeader("Access-Control-Allow-Origin", "*");
                     log.insertOne(url.query);
                     _response.write("User erstellt");
                 }
                 else {
-                    _response.setHeader("content-type", "text/html; charset=utf-8");
-                    _response.setHeader("Access-Control-Allow-Origin", "*");
                     _response.write("User existiert schon");
                 }
             }
             else if (path == "/nutzer") {
-                _response.setHeader("content-type", "text/html; charset=utf-8");
-                _response.setHeader("Access-Control-Allow-Origin", "*");
-                let logInArray = await log.find().toArray();
                 let logInArrayJSON = JSON.stringify(logInArray);
                 _response.write(logInArrayJSON);
             }
+            _response.end();
         }
-        _response.write("test");
-        _response.end();
     }
 })(P_3_1Server = exports.P_3_1Server || (exports.P_3_1Server = {}));
 //# sourceMappingURL=script.js.map

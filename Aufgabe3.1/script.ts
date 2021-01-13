@@ -7,9 +7,9 @@ import * as Mongo from "mongodb";
 export namespace P_3_1Server {
 
     interface LogIn {
-        name: string;
-        firstname: string;
-        registration: string;
+        vorname: string;
+        nachname: string;
+        matrikelnummer: string;
     }
 
     let log: Mongo.Collection;
@@ -20,7 +20,6 @@ export namespace P_3_1Server {
         port = 8100;
 
     //let databaseUrl: string = "mongodb://localhost:27017";
-    //let databaseUrl: string = "https://mongodbnetbrowser.herokuapp.com/?u=Testuser&p=Testuser&a=nikita-gis-ist-geil.gl0tb.mongodb.net&n=test&c=Students";
     let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
 
     startServer(port);
@@ -60,9 +59,9 @@ export namespace P_3_1Server {
         let logInArray: LogIn[] = await log.find().toArray();
 
         for (let i: number = 0; i < logInArray.length; i++) {
-            if (ntzName[1] == (logInArray[i].name)) {
-                if (ntzFirstname[1] == (logInArray[i].firstname)) {
-                    if (ntzRegistration[1] == logInArray[i].registration) {
+            if (ntzName[1] == (logInArray[i].vorname)) {
+                if (ntzFirstname[1] == (logInArray[i].nachname)) {
+                    if (ntzRegistration[1] == logInArray[i].matrikelnummer) {
                         JSON.stringify(logInArray);
                         return true;
                     }
@@ -80,39 +79,28 @@ export namespace P_3_1Server {
 
         if (_request.url) {
 
+            let logInArray: LogIn[] = await log.find().toArray();
             let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true);
             let path: String | null = url.pathname;
 
             if (path == "/login") {
                 if (await vergleichen(url.path) == false) {
-                    _response.setHeader("content-type", "text/html; charset=utf-8");
-                    _response.setHeader("Access-Control-Allow-Origin", "*");
                     _response.write("User nicht gefunden überprüfen sie ihre eingabe");
                 } else {
-                    _response.setHeader("content-type", "text/html; charset=utf-8");
-                    _response.setHeader("Access-Control-Allow-Origin", "*");
                     _response.write("User gefunden");
                 }
             } else if (path == "/registrieren") {
                 if (await vergleichen(url.path) == false) {
-                    _response.setHeader("content-type", "text/html; charset=utf-8");
-                    _response.setHeader("Access-Control-Allow-Origin", "*");
                     log.insertOne(url.query);
                     _response.write("User erstellt");
                 } else {
-                    _response.setHeader("content-type", "text/html; charset=utf-8");
-                    _response.setHeader("Access-Control-Allow-Origin", "*");
                     _response.write("User existiert schon");
                 }
             } else if (path == "/nutzer") {
-                _response.setHeader("content-type", "text/html; charset=utf-8");
-                _response.setHeader("Access-Control-Allow-Origin", "*");
-                let logInArray: LogIn[] = await log.find().toArray();
                 let logInArrayJSON: string = JSON.stringify(logInArray);
                 _response.write(logInArrayJSON);
             }
+            _response.end();
         }
-        _response.write("test");
-        _response.end();
     }
 }
