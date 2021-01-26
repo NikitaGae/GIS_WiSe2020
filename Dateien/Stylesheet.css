@@ -1,0 +1,245 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    background-image: url("./Images/HFU_claim_pos_dt_20Prozent_RGB.jpg");
+    background-repeat: repeat;
+    background-size: cover;
+}
+
+h1,
+h2 {
+    color: white;
+}
+
+#unter {
+    margin-top: 60px;
+}
+
+#rechteck {
+    width: 25%;
+    height: 10%;
+    background-color: #76b900;
+    text-align: center;
+    margin: auto;
+}
+
+#logo * {
+    float: left;
+    width: 10%;
+    height: 10%;
+    margin: auto;
+}
+
+.produkt {
+    float: left;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 3%;
+    background-color: #76b900;
+    border-radius: 3%;
+}
+
+.produktgrey {
+    background-color: grey;
+}
+
+.produktbild {
+    margin-top: 10px;
+    height: 200px;
+    width: 150px;
+}
+
+.container {
+    margin: auto;
+    width: 200px;
+    height: 250px;
+    background-color: #76b900;
+    border-radius: 3%;
+}
+
+.containergrey {
+    background-color: grey;
+}
+
+.detailbutton {
+    text-decoration: none;
+    color: white;
+    background-color: #00644D;
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 10px 40px;
+    border-style: none;
+}
+
+.detailbutton:hover {
+    background-color: #327464;
+}
+
+.detailhide {
+    position: fixed;
+    display: none;
+    z-index: 1;
+}
+
+.detailshow {
+    display: block;
+    z-index: 1;
+    margin: auto;
+    padding: 50px;
+    text-align: center;
+    background-color: #76b900;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-style: inset;
+    border-color: black;
+    border-radius: 3%;
+    border-width: 4px;
+    text-align: left;
+}
+
+.auswahl {
+    text-decoration: none;
+    color: white;
+    background-color: #00644D;
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 10px 40px;
+    border-style: none;
+    margin-top: 20px;
+    font-size: 125%;
+}
+
+.auswahlgrey {
+    background-color: grey;
+}
+
+#reservieren {
+    text-decoration: none;
+    color: white;
+    background-color: #00644D;
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 10px 40px;
+    border-style: none;
+    margin-bottom: 5px;
+}
+
+#savereservieren {
+    text-decoration: none;
+    color: white;
+    background-color: #00644D;
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 10px 40px;
+    border-style: none;
+    margin-bottom: 5px;
+    margin-top: 10%;
+}
+
+#reservehide {
+    position: fixed;
+    display: none;
+    z-index: 1;
+}
+
+#reserveshow {
+    display: block;
+    z-index: 1;
+    margin: auto;
+    padding: 50px;
+    text-align: center;
+    background-color: #76b900;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-style: inset;
+    border-color: black;
+    border-radius: 3%;
+    border-width: 4px;
+    text-align: left;
+}
+
+.detaildiv,
+#form {
+    color: white;
+    font-size: 125%;
+}
+
+.schließen {
+    color: white;
+    font-size: 80%
+}
+
+.schließenrev {
+    color: white;
+    font-size: 60%;
+}
+
+.checkbox {
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    margin-top: 10px;
+}
+
+#cart {
+    background-color: #76b900;
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: black;
+    border-radius: 3%;
+    color: white;
+}
+
+#tabelle {
+    border-collapse: collapse;
+    width: 80%;
+}
+
+#tabelle th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #00644D;
+    color: white;
+}
+
+#tabelle td,
+#tabelle th {
+    border: 1px solid rgb(199, 199, 199);
+    padding: 8px;
+    text-align: center;
+    font-size: 20px;
+}
+
+#tabelle tr {
+    background-color: rgb(225, 224, 224);
+}
+
+#tabelle tr:hover {
+    background-color: #76b900;
+}
+
+.buttonausgeliehen,
+.buttonfrei {
+    text-decoration: none;
+    color: white;
+    background-color: #00644D;
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 10px 40px;
+    border-style: none;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.buttongrau {
+    background-color: grey;
+}
+
+#checkformresponse {
+    font-size: 100%;
+}

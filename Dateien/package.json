@@ -1,0 +1,26 @@
+{
+    "name": "gis-wise-2020-2021",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "dependencies": {
+        "@types/mongodb": "^3.6.3",
+        "mongodb": "^3.6.3"
+    },
+    "devDependencies": {
+        "@types/node": "^14.14.12"
+    },
+    "scripts": {
+        "start": "node Prüfungsabgabe/server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Vinzenz0411/GIS-WiSe-2020-2021.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Vinzenz0411/GIS-WiSe-2020-2021/issues"
+    },
+    "homepage": "https://github.com/Vinzenz0411/GIS-WiSe-2020-2021#readme"
+}
