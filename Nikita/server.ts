@@ -1,9 +1,6 @@
 import * as Http from "http";
 import * as Url from "url";
 import * as Mongo from "mongodb";
-
-
-
 import { ParsedUrlQuery } from "querystring";
 
 export namespace PruefungsabgabeServer {
@@ -14,9 +11,9 @@ export namespace PruefungsabgabeServer {
         nachname: string;
         studiengang: string;
         semesterangabe: string;
-        passwort: string;
         beitraege: string[];
     }
+
 
     let log: Mongo.Collection;
 
@@ -50,41 +47,19 @@ export namespace PruefungsabgabeServer {
         let options: Mongo.MongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true };
         let mongoClient: Mongo.MongoClient = new Mongo.MongoClient(_url, options);
         await mongoClient.connect();
-        log = mongoClient.db("test").collection("Snapchat");
+        log = mongoClient.db("test").collection("Facebook");
         console.log("Database connection ", log != undefined);
     }
 
-    //function zum vergleichen der eingegeben daten beim einloggen also nur das Passwort und der Name
-    async function anmeldenVergleichen(_url: string): Promise<LogIn> {
-        let pathSplit: string[] = _url.split("?");
-        let daten: string[] = pathSplit[1].split("&");
-        let ntzName: string[] = daten[0].split("=");
-        let ntzPasswort: string[] = daten[1].split("=");
-
-        //let ntzBeitraege: string[] = daten[4].split("=");
-
-        let logInArray: LogIn[] = await log.find().toArray();
-
-        for (let i: number = 0; i < logInArray.length; i++) {
-            if (ntzName[1] == (logInArray[i].vorname)) {
-                if (ntzPasswort[1] == (logInArray[i].passwort)) {
-                    JSON.stringify(logInArray);
-                    return logInArray[i];
-                }
-            }
-        }
-        return null;
-    }
-
-    //Hier sollen alle eingegeben sachen Verglichen werden mit der Datenbank und es wird geprüft ob es den Nutzer schon gibt
-    async function registrierenVergleichen(_url: string): Promise<LogIn> {
+    //function zum vergleichen der eingegeben daten
+    async function vergleichen(_url: string): Promise<LogIn> {
         let pathSplit: string[] = _url.split("?");
         let daten: string[] = pathSplit[1].split("&");
         let ntzName: string[] = daten[0].split("=");
         let ntzFirstname: string[] = daten[1].split("=");
         let ntzStudiengang: string[] = daten[2].split("=");
         let ntzSemesterangabe: string[] = daten[3].split("=");
-        //let ntzPasswort: string[] = daten[4].split("=");
+        //let ntzBeitraege: string[] = daten[4].split("=");
 
         let logInArray: LogIn[] = await log.find().toArray();
 
@@ -103,10 +78,7 @@ export namespace PruefungsabgabeServer {
         return null;
     }
 
-
-
-    //hier werden die server antworten geschrieben je nachdem auf welcher html seite wir uns befindendazu sollen noch daten mitgegeben werden wie z.B
-    //für das Profil die eingegeben sachen oder für den Nutzer alle NUtzer die existieren
+    //hier werden die server antworten geschrieben je nachdem auf welcher html seite wir uns befinden
     async function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): Promise<void> {
         console.log("I hear voices!");
         _response.setHeader("content-type", "text/html; charset=utf-8");
@@ -121,30 +93,15 @@ export namespace PruefungsabgabeServer {
             let user: LogIn;
 
             if (path == "/anmelden") {
-                user = await anmeldenVergleichen(url.path);
+                user = await vergleichen(url.path);
                 if (user == null) {
                     _response.write("User nicht gefunden überprüfen sie ihre eingabe$");
                 } else {
                     //_response.write("User gefunden");
-
-                    let message2: ParsedUrlQuery = url.query;
-                    log.findOneAndUpdate({ _id: new Mongo.ObjectId(<string>message2.id) }, { $push: { beitraege: message2.subject } });
-
-                    let allMsg: LogIn[] = await log.find().toArray();
-                    let nachricht: String[] = [];
-                    console.log(allMsg);
-
-                    if (allMsg != null) {
-                        for (let i: number = allMsg.length - 1; i >= 0; i--) {
-                            for (let j: number = allMsg[i].beitraege.length - 1; j >= 0; j--) {
-                                nachricht.push(allMsg[i].beitraege[j] + "</br>");
-                            }
-                        }
-                    }
-                    _response.write("User$" + "Nachname: " + user.nachname + " " + "Vorname: " + user.vorname + "," + " " + "Studiengang: " + user.studiengang + " " + "Semester: " + user.semesterangabe + "$</br>" + "Daten$" + JSON.stringify(nachricht));
+                    _response.write("User$" + JSON.stringify(user));
                 }
             } else if (path == "/registrieren") {
-                user = await registrierenVergleichen(url.path);
+                user = await vergleichen(url.path);
                 if (user == null) {
                     log.insertOne(url.query);
                     _response.write("Erstellt$");
@@ -168,14 +125,13 @@ export namespace PruefungsabgabeServer {
                 _response.write("Nutzer$" + jsonString);
 
             } else if (path == "/profil") {
-                /* let allUser: String[] = await log.find().toArray();
-                let logInArrayJSON: string = JSON.stringify(allUser); */
-                _response.write("Profil$" + "Nachname: " + user.nachname + " " + "Vorname: " + user.vorname + "," + " " + "Studiengang: " + user.studiengang + " " + "Semester: " + user.semesterangabe + "</br>");
+                //let logInArrayJSON: string = JSON.stringify(allUser);
+                //_response.write("Profil$" ); // + "Nachname: " + user.nachname + " " + "Vorname: " + user.vorname + "," + " " + "Studiengang: " + user.studiengang + " " + "Semester: " + user.semesterangabe + "</br>");
 
             } else if (path == "/hauptseite") {
                 let message: ParsedUrlQuery = url.query;
-                log.findOneAndUpdate({ _id: new Mongo.ObjectId(<string>message.id) }, { $push: { beitraege: message.subject } });
-                _response.write("Nachricht$" + message.subject);
+                log.findOneAndUpdate({_id: new Mongo.ObjectId(<string>message.id)}, { $push: { beitraege: message.subject } });
+                _response.write("hauptseite$" + message.subject);
             }
             _response.end();
         }

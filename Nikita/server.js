@@ -29,35 +29,18 @@ var PruefungsabgabeServer;
         let options = { useNewUrlParser: true, useUnifiedTopology: true };
         let mongoClient = new Mongo.MongoClient(_url, options);
         await mongoClient.connect();
-        log = mongoClient.db("test").collection("Snapchat");
+        log = mongoClient.db("test").collection("Facebook");
         console.log("Database connection ", log != undefined);
     }
     //function zum vergleichen der eingegeben daten
-    async function anmeldenVergleichen(_url) {
-        let pathSplit = _url.split("?");
-        let daten = pathSplit[1].split("&");
-        let ntzName = daten[0].split("=");
-        let ntzPasswort = daten[1].split("=");
-        //let ntzBeitraege: string[] = daten[4].split("=");
-        let logInArray = await log.find().toArray();
-        for (let i = 0; i < logInArray.length; i++) {
-            if (ntzName[1] == (logInArray[i].vorname)) {
-                if (ntzPasswort[1] == (logInArray[i].passwort)) {
-                    JSON.stringify(logInArray);
-                    return logInArray[i];
-                }
-            }
-        }
-        return null;
-    }
-    async function registrierenVergleichen(_url) {
+    async function vergleichen(_url) {
         let pathSplit = _url.split("?");
         let daten = pathSplit[1].split("&");
         let ntzName = daten[0].split("=");
         let ntzFirstname = daten[1].split("=");
         let ntzStudiengang = daten[2].split("=");
         let ntzSemesterangabe = daten[3].split("=");
-        //let ntzPasswort: string[] = daten[4].split("=");
+        //let ntzBeitraege: string[] = daten[4].split("=");
         let logInArray = await log.find().toArray();
         for (let i = 0; i < logInArray.length; i++) {
             if (ntzName[1] == (logInArray[i].vorname)) {
@@ -84,29 +67,17 @@ var PruefungsabgabeServer;
             let path = url.pathname;
             let user;
             if (path == "/anmelden") {
-                user = await anmeldenVergleichen(url.path);
+                user = await vergleichen(url.path);
                 if (user == null) {
                     _response.write("User nicht gefunden überprüfen sie ihre eingabe$");
                 }
                 else {
                     //_response.write("User gefunden");
-                    let message2 = url.query;
-                    log.findOneAndUpdate({ _id: new Mongo.ObjectId(message2.id) }, { $push: { beitraege: message2.subject } });
-                    let allMsg = await log.find().toArray();
-                    let nachricht = [];
-                    console.log(allMsg);
-                    if (allMsg != null) {
-                        for (let i = allMsg.length - 1; i >= 0; i--) {
-                            for (let j = allMsg[i].beitraege.length - 1; j >= 0; j--) {
-                                nachricht.push(allMsg[i].beitraege[j] + "</br>");
-                            }
-                        }
-                    }
-                    _response.write("User$" + "Nachname: " + user.nachname + " " + "Vorname: " + user.vorname + "," + " " + "Studiengang: " + user.studiengang + " " + "Semester: " + user.semesterangabe + "$</br>" + "Daten$" + JSON.stringify(nachricht));
+                    _response.write("User$" + JSON.stringify(user));
                 }
             }
             else if (path == "/registrieren") {
-                user = await registrierenVergleichen(url.path);
+                user = await vergleichen(url.path);
                 if (user == null) {
                     log.insertOne(url.query);
                     _response.write("Erstellt$");
@@ -129,45 +100,14 @@ var PruefungsabgabeServer;
                 _response.write("Nutzer$" + jsonString);
             }
             else if (path == "/profil") {
-                /* let allUser: String[] = await log.find().toArray();
-                let logInArrayJSON: string = JSON.stringify(allUser); */
-                _response.write("Profil$" + "Nachname: " + user.nachname + " " + "Vorname: " + user.vorname + "," + " " + "Studiengang: " + user.studiengang + " " + "Semester: " + user.semesterangabe + "</br>");
+                //let logInArrayJSON: string = JSON.stringify(allUser);
+                //_response.write("Profil$" ); // + "Nachname: " + user.nachname + " " + "Vorname: " + user.vorname + "," + " " + "Studiengang: " + user.studiengang + " " + "Semester: " + user.semesterangabe + "</br>");
             }
             else if (path == "/hauptseite") {
-                /* let message: Daten = JSON.parse(JSON.stringify(url.query));
-
-                log.findOneAndUpdate({_id: new Mongo.ObjectId(message._id)}, { $set: { beitraege: message.nachricht } });
-                console.log(await log.findOne({_id: new Mongo.ObjectId(message._id)})); */
                 let message = url.query;
                 log.findOneAndUpdate({ _id: new Mongo.ObjectId(message.id) }, { $push: { beitraege: message.subject } });
-                _response.write("Nachricht$" + message.subject);
-                /* for (let i: number = allMsg.length - 1; i >= 0; i--) {
-                    for (let j: number = allMsg[i].beitraege.length - 1; j >= 0; j--) {
-                        nachricht += allMsg[i].beitraege[j] + "</br>";
-                    }
-                } */
-                //_response.write("hauptseite$" + "Nachricht");
-                //db.updateOne.update({vorname: },{$set :{token:12345}})
-                /* log.findOneAndUpdate({user._id});
-    
-                _response.write(user.beitraege);
-                 */
-            } /* else if (path == "/hauptseite") {
-
-                let message: ParsedUrlQuery = url.query;
-                log.findOneAndUpdate({ _id: new Mongo.ObjectId(<string>message.id) }, { $push: { beitraege: message.subject } });
-
-                let allMsg: LogIn[] = await log.find().toArray();
-                let nachricht: String[] = [];
-
-                for (let i: number = allMsg.length - 1; i >= 0; i--) {
-                    for (let j: number = allMsg[i].beitraege.length - 1; j >= 0; j--) {
-                        nachricht.push(allMsg[i].beitraege[j]);
-                    }
-                }
-
-                _response.write("Daten$" + JSON.stringify(nachricht));
-            } */
+                _response.write("Nachricht erfolgreich gepostet");
+            }
             _response.end();
         }
     }

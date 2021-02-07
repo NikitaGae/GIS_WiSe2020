@@ -33,7 +33,6 @@ namespace Pruefungsabgabe {
                 url += "/anmelden";
                 knopf = <HTMLButtonElement>document.getElementById("knopf");
                 knopf.addEventListener("click", function (): void { communicate(url); });
-                //knopf.addEventListener("click", nachrichtenAbrufen);
                 break;
             case "nutzer.html":
                 url += "/nutzer";
@@ -41,32 +40,28 @@ namespace Pruefungsabgabe {
                 break;
             case "profil.html":
                 url += "/profil";
-                (<HTMLDivElement>document.getElementById("profil")).innerHTML = localStorage.getItem("responseUser");               
+                (<HTMLDivElement>document.getElementById("profil")).innerHTML = localStorage.getItem("response");
                 break;
             case "hauptseite.html":
                 url += "/hauptseite";
-                (<HTMLDivElement>document.getElementById("divNachrichten")).innerHTML = localStorage.getItem("responseNachricht");
                 sendenButton.addEventListener("click", senden);
+                await communicate(url); 
                 break;
         }
     }
-
     //hier werden die server antworten in das div mit der id text geschrieben
     async function communicate(_url: RequestInfo): Promise<void> {
         let formData: FormData = new FormData(document.forms[0]);
-        let query: URLSearchParams = new URLSearchParams(<any>formData);
+        let query: URLSearchParams = new URLSearchParams(<URLSearchParams>formData);
         _url = _url + "?" + query.toString();
         let response: Response = await fetch(_url);
         let antwortHTML: string = await response.text();
-        console.log(antwortHTML);
         let antwortSplit: string[] = antwortHTML.split("$");
-        console.log(antwortSplit[2]);
+        console.log(antwortSplit[0]); 
 
         if (antwortSplit[0] == "User") {
             window.open("hauptseite.html");
-            localStorage.setItem("responseUser", antwortSplit[1]);
-            localStorage.setItem("responseNachricht", antwortSplit[3]);
-            await nachrichtenAbrufen();
+            localStorage.setItem("response", antwortSplit[1]);
             //(<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
 
         } else if (antwortSplit[0] == "Erstellt") {
@@ -76,63 +71,59 @@ namespace Pruefungsabgabe {
         } else if (antwortSplit[0] == "Profil") {
             localStorage.setItem("response", antwortHTML);
 
+
         } else if (antwortSplit[0] == "Nutzer") {
             if (antwortSplit[1] != "[]") {
                 userArray = JSON.parse(antwortSplit[1]);
             }
             createUser();
-        } else if (antwortSplit[0] == "Nachricht") {
-            (<HTMLDivElement>document.getElementById("divNachrichten")).innerHTML = antwortHTML;
+        } else if (antwortSplit[0] == "hauptseite") {
+            (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
         }
     }
 
-
-    async function nachrichtenAbrufen(): Promise<void> {
-        let id: LogIn = JSON.parse(localStorage.getItem("responseNachricht"));
-        let form: HTMLFormElement = <HTMLFormElement>document.getElementById("subjectForm");
-        let formdata: FormData = new FormData(form);
-        let query: URLSearchParams = new URLSearchParams(<URLSearchParams>formdata);
-        query.append("id", id._id);
-
-        let url: string = "http://localhost:8100/hauptseite";
-        url = url + "?" + query.toString();
-        let response: Response = await fetch(url);
-        let antwortHTML: string = await response.text();
-        let antwortSplit: string[] = JSON.parse(antwortHTML.split("$")[1]);
-
-        let safe: HTMLDivElement = (<HTMLDivElement>document.getElementById("divNachrichten"));
-
-        for (let i: number = 0; i < antwortSplit.length; i++) {
-            let divNachricht: HTMLDivElement = <HTMLDivElement>document.createElement("div");
-            divNachricht.innerHTML = antwortSplit[i];
-            safe.appendChild(divNachricht);
-            divNachricht.classList.add("alleNachrichten");
-        }
-    }
-
-    //hier wird für jede Nachricht ein div erstellt und die Nachricht ins div iengefügt
     async function senden(): Promise<void> {
-        let id: LogIn = JSON.parse(localStorage.getItem("response"));
-        let form: HTMLFormElement = <HTMLFormElement>document.getElementById("subjectForm");
-        let formdata: FormData = new FormData(form);
-        let query: URLSearchParams = new URLSearchParams(<URLSearchParams>formdata);
-        query.append("id", id._id);
+        //let myText: string = "Nachricht= ";
+        //myText += (<HTMLTextAreaElement>document.getElementById("subject")).value; */
+        /* let userJSON: LogIn = JSON.parse(localStorage.getItem("response"));
+        let abschicken: Daten = {_id: userJSON._id, nachricht: (<HTMLTextAreaElement>document.getElementById("subject")).value};
+        let url: string = "http://localhost:8100/hauptseite";
+        url = url + "?" + JSON.stringify(abschicken);
+        console.log(url);
+        await communicate(url); */
 
+
+
+
+        /* let userJSON: LogIn = JSON.parse(localStorage.getItem("response"));
+        let abschicken: Daten = {_id: userJSON._id, nachricht: (<HTMLFormElement>document.getElementById("subjectForm")).value};
+        
+
+        let query: URLSearchParams = new URLSearchParams(JSON.stringify(abschicken));
+        
         let url: string = "http://localhost:8100/hauptseite";
         url = url + "?" + query.toString();
+        console.log(url);
+        await communicate(url); */
+
+        let id: LogIn = JSON.parse(localStorage.getItem("response"));
+        let form: HTMLFormElement = <HTMLFormElement> document.getElementById("subjectForm");
+        let formdata: FormData = new FormData(form);
+        let query: URLSearchParams = new URLSearchParams(<URLSearchParams>formdata);
+        query.append("id" , id._id);
+        
+        let url: string = "http://localhost:8100/hauptseite";
+        url = url + "?" + query.toString();
+        console.log(url);
         let response: Response = await fetch(url);
         let antwortHTML: string = await response.text();
-        let antwortSplit: string[] = antwortHTML.split("$");
-        //(<HTMLDivElement>document.getElementById("divNachrichten")).innerHTML = antwortSplit[1];
-
-        let safe: HTMLDivElement = (<HTMLDivElement>document.getElementById("divNachrichten"));
-        let divNachricht: HTMLDivElement = <HTMLDivElement>document.createElement("div");
-        divNachricht.innerHTML = antwortSplit[1];
-        safe.appendChild(divNachricht);
-        divNachricht.classList.add("alleNachrichten");
+        console.log(antwortHTML);
     }
 
-    //Jeder Nutzer wird unter einander aufgeschrieben und jedem nutzer wird ein Button zugewiesen 
+   
+        
+    
+
     async function createUser(): Promise<void> {
         for (let i: number = 0; i < userArray.length; i++) {
             let div: HTMLDivElement = <HTMLDivElement>document.createElement("div");
@@ -159,6 +150,7 @@ namespace Pruefungsabgabe {
 
             let buttonFolgen: HTMLButtonElement = document.createElement("button");
             buttonFolgen.id = "buttonFolgen" + i;
+            //console.log(buttonFolgen.getAttribute("target"));
             buttonFolgen.classList.add("folgenButtonClass");
             buttonFolgen.innerHTML = "Folgen";
             buttonFolgen.addEventListener("click", handleFolgen);
@@ -166,7 +158,6 @@ namespace Pruefungsabgabe {
         }
     }
 
-    //function damit man anderen Nutzern Folgen kann
     function handleFolgen(_event: Event): void {
         let targetZaehler: string = (<HTMLDivElement>(<HTMLElement>_event.currentTarget).parentElement).getAttribute("target")!;
         (<HTMLDivElement>document.getElementById("buttonFolgen" + targetZaehler)).innerHTML = "Entfolgen";

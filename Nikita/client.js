@@ -19,7 +19,6 @@ var Pruefungsabgabe;
                 url += "/anmelden";
                 knopf = document.getElementById("knopf");
                 knopf.addEventListener("click", function () { communicate(url); });
-                //knopf.addEventListener("click", nachrichtenAbrufen);
                 break;
             case "nutzer.html":
                 url += "/nutzer";
@@ -27,12 +26,12 @@ var Pruefungsabgabe;
                 break;
             case "profil.html":
                 url += "/profil";
-                document.getElementById("profil").innerHTML = localStorage.getItem("responseUser");
+                document.getElementById("profil").innerHTML = localStorage.getItem("response");
                 break;
             case "hauptseite.html":
                 url += "/hauptseite";
-                document.getElementById("divNachrichten").innerHTML = localStorage.getItem("responseNachricht");
                 sendenButton.addEventListener("click", senden);
+                await communicate(url);
                 break;
         }
     }
@@ -43,14 +42,11 @@ var Pruefungsabgabe;
         _url = _url + "?" + query.toString();
         let response = await fetch(_url);
         let antwortHTML = await response.text();
-        console.log(antwortHTML);
         let antwortSplit = antwortHTML.split("$");
-        console.log(antwortSplit[2]);
+        console.log(antwortSplit[0]);
         if (antwortSplit[0] == "User") {
             window.open("hauptseite.html");
-            localStorage.setItem("responseUser", antwortSplit[1]);
-            localStorage.setItem("responseNachricht", antwortSplit[3]);
-            await nachrichtenAbrufen();
+            localStorage.setItem("response", antwortSplit[1]);
             //(<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
         }
         else if (antwortSplit[0] == "Erstellt") {
@@ -66,50 +62,9 @@ var Pruefungsabgabe;
             }
             createUser();
         }
-        else if (antwortSplit[0] == "Nachricht") {
-            document.getElementById("divNachrichten").innerHTML = antwortHTML;
+        else if (antwortSplit[0] == "hauptseite") {
+            document.getElementById("text").innerHTML = antwortHTML;
         }
-    }
-    async function nachrichtenAbrufen() {
-        let id = JSON.parse(localStorage.getItem("responseNachricht"));
-        let form = document.getElementById("subjectForm");
-        let formdata = new FormData(form);
-        let query = new URLSearchParams(formdata);
-        query.append("id", id._id);
-        let url = "http://localhost:8100/hauptseite";
-        url = url + "?" + query.toString();
-        let response = await fetch(url);
-        let antwortHTML = await response.text();
-        let antwortSplit = JSON.parse(antwortHTML.split("$")[1]);
-        let safe = document.getElementById("divNachrichten");
-        for (let i = 0; i < antwortSplit.length; i++) {
-            let divNachricht = document.createElement("div");
-            divNachricht.innerHTML = antwortSplit[i];
-            safe.appendChild(divNachricht);
-            divNachricht.classList.add("alleNachrichten");
-        }
-        /* let id: LogIn = JSON.parse(localStorage.getItem("response"));
-        let form: HTMLFormElement = <HTMLFormElement>document.getElementById("subjectForm");
-        let formdata: FormData = new FormData(form);
-        let query: URLSearchParams = new URLSearchParams(<URLSearchParams>formdata);
-        query.append("id", id._id);
-
-        let url: string = "http://localhost:8100/hauptseite";
-        url = url + "?" + query.toString();
-        console.log(url);
-        let response: Response = await fetch(url);
-        let antwortHTML: string = await response.text();
-        console.log(antwortHTML);
-        let antwortSplit: string[] = JSON.parse(antwortHTML.split("$")[1]);
-
-        let safe: HTMLDivElement = (<HTMLDivElement>document.getElementById("divNachrichten"));
-
-        for (let i: number = 0; i < antwortSplit.length; i++) {
-            let divNachricht: HTMLDivElement = <HTMLDivElement>document.createElement("div");
-            divNachricht.innerHTML = antwortSplit[i];
-            safe.appendChild(divNachricht);
-            divNachricht.classList.add("alleNachrichten");
-        } */
     }
     async function senden() {
         //let myText: string = "Nachricht= ";
@@ -130,16 +85,6 @@ var Pruefungsabgabe;
         url = url + "?" + query.toString();
         console.log(url);
         await communicate(url); */
-        /* let userJSON: LogIn = JSON.parse(localStorage.getItem("response"));
-        let form: HTMLFormElement = <HTMLFormElement> document.getElementById("subjectForm");
-        let formdata: FormData = new FormData(form);
-        let query: URLSearchParams = new URLSearchParams(<URLSearchParams>formdata);
-        query.append("id" , userJSON._id);
-        
-        let url: string = "http://localhost:8100/hauptseite";
-        url = url + "?" + query.toString();
-        console.log(url);
-        await communicate(url);*/
         let id = JSON.parse(localStorage.getItem("response"));
         let form = document.getElementById("subjectForm");
         let formdata = new FormData(form);
@@ -147,17 +92,10 @@ var Pruefungsabgabe;
         query.append("id", id._id);
         let url = "http://localhost:8100/hauptseite";
         url = url + "?" + query.toString();
-        //console.log(url);
+        console.log(url);
         let response = await fetch(url);
         let antwortHTML = await response.text();
-        //console.log(antwortHTML);
-        let antwortSplit = antwortHTML.split("$");
-        //(<HTMLDivElement>document.getElementById("divNachrichten")).innerHTML = antwortSplit[1];
-        let safe = document.getElementById("divNachrichten");
-        let divNachricht = document.createElement("div");
-        divNachricht.innerHTML = antwortSplit[1];
-        safe.appendChild(divNachricht);
-        divNachricht.classList.add("alleNachrichten");
+        console.log(antwortHTML);
     }
     async function createUser() {
         for (let i = 0; i < Pruefungsabgabe.userArray.length; i++) {
