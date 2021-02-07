@@ -15,7 +15,7 @@ namespace Pruefungsabgabe {
 
     main();
 
-
+    //Je nach html ordnet es der seite eine Response zu
     async function main(): Promise<void> {
         let location: string[] = window.location.pathname.split("/");
         let teil: string = location[location.length - 1];
@@ -34,7 +34,6 @@ namespace Pruefungsabgabe {
                 url += "/anmelden";
                 knopf = <HTMLButtonElement>document.getElementById("knopf");
                 knopf.addEventListener("click", function (): void { communicate(url); });
-                //knopf.addEventListener("click", nachrichtenAbrufen);
                 break;
             case "nutzer.html":
                 url += "/nutzer";
@@ -42,7 +41,7 @@ namespace Pruefungsabgabe {
                 break;
             case "profil.html":
                 url += "/profil";
-                (<HTMLDivElement>document.getElementById("profil")).innerHTML = localStorage.getItem("responseUser");               
+                (<HTMLDivElement>document.getElementById("profil")).innerHTML = localStorage.getItem("responseUser");
                 break;
             case "hauptseite.html":
                 url += "/hauptseite";
@@ -68,8 +67,6 @@ namespace Pruefungsabgabe {
             localStorage.setItem("responseUser", antwortSplit[1]);
             localStorage.setItem("responseNachricht", antwortSplit[3]);
             await nachrichtenAbrufen();
-            //(<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
-
         } else if (antwortSplit[0] == "Erstellt") {
             window.open("hauptseite.html");
             (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
@@ -126,7 +123,6 @@ namespace Pruefungsabgabe {
         let response: Response = await fetch(url);
         let antwortHTML: string = await response.text();
         let antwortSplit: string[] = antwortHTML.split("$");
-        //(<HTMLDivElement>document.getElementById("divNachrichten")).innerHTML = antwortSplit[1];
 
         let safe: HTMLDivElement = (<HTMLDivElement>document.getElementById("divNachrichten"));
         let divNachricht: HTMLDivElement = <HTMLDivElement>document.createElement("div");

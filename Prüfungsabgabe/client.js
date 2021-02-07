@@ -3,6 +3,7 @@ var Pruefungsabgabe;
 (function (Pruefungsabgabe) {
     let sendenButton = document.getElementById("senden");
     main();
+    //Je nach html ordnet es der seite eine Response zu
     async function main() {
         let location = window.location.pathname.split("/");
         let teil = location[location.length - 1];
@@ -19,7 +20,6 @@ var Pruefungsabgabe;
                 url += "/anmelden";
                 knopf = document.getElementById("knopf");
                 knopf.addEventListener("click", function () { communicate(url); });
-                //knopf.addEventListener("click", nachrichtenAbrufen);
                 break;
             case "nutzer.html":
                 url += "/nutzer";
@@ -51,7 +51,6 @@ var Pruefungsabgabe;
             localStorage.setItem("responseUser", antwortSplit[1]);
             localStorage.setItem("responseNachricht", antwortSplit[3]);
             await nachrichtenAbrufen();
-            //(<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
         }
         else if (antwortSplit[0] == "Erstellt") {
             window.open("hauptseite.html");
@@ -104,7 +103,6 @@ var Pruefungsabgabe;
         let response = await fetch(url);
         let antwortHTML = await response.text();
         let antwortSplit = antwortHTML.split("$");
-        //(<HTMLDivElement>document.getElementById("divNachrichten")).innerHTML = antwortSplit[1];
         let safe = document.getElementById("divNachrichten");
         let divNachricht = document.createElement("div");
         divNachricht.innerHTML = antwortSplit[1];

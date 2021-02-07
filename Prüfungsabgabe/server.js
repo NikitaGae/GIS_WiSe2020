@@ -38,7 +38,6 @@ var PruefungsabgabeServer;
         let daten = pathSplit[1].split("&");
         let ntzName = daten[0].split("=");
         let ntzPasswort = daten[1].split("=");
-        //let ntzBeitraege: string[] = daten[4].split("=");
         let logInArray = await log.find().toArray();
         for (let i = 0; i < logInArray.length; i++) {
             if (ntzName[1] == (logInArray[i].vorname)) {
@@ -58,7 +57,6 @@ var PruefungsabgabeServer;
         let ntzFirstname = daten[1].split("=");
         let ntzStudiengang = daten[2].split("=");
         let ntzSemesterangabe = daten[3].split("=");
-        //let ntzPasswort: string[] = daten[4].split("=");
         let logInArray = await log.find().toArray();
         for (let i = 0; i < logInArray.length; i++) {
             if (ntzName[1] == (logInArray[i].vorname)) {
@@ -81,7 +79,6 @@ var PruefungsabgabeServer;
         _response.setHeader("content-type", "text/html; charset=utf-8");
         _response.setHeader("Access-Control-Allow-Origin", "*");
         if (_request.url) {
-            //let logInArray: LogIn[] = await log.find().toArray();
             let url = Url.parse(_request.url, true);
             let path = url.pathname;
             let user;

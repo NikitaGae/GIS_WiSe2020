@@ -61,8 +61,6 @@ export namespace PruefungsabgabeServer {
         let ntzName: string[] = daten[0].split("=");
         let ntzPasswort: string[] = daten[1].split("=");
 
-        //let ntzBeitraege: string[] = daten[4].split("=");
-
         let logInArray: LogIn[] = await log.find().toArray();
 
         for (let i: number = 0; i < logInArray.length; i++) {
@@ -84,7 +82,6 @@ export namespace PruefungsabgabeServer {
         let ntzFirstname: string[] = daten[1].split("=");
         let ntzStudiengang: string[] = daten[2].split("=");
         let ntzSemesterangabe: string[] = daten[3].split("=");
-        //let ntzPasswort: string[] = daten[4].split("=");
 
         let logInArray: LogIn[] = await log.find().toArray();
 
@@ -113,8 +110,6 @@ export namespace PruefungsabgabeServer {
         _response.setHeader("Access-Control-Allow-Origin", "*");
 
         if (_request.url) {
-
-            //let logInArray: LogIn[] = await log.find().toArray();
             let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true);
             let path: String | null = url.pathname;
 
