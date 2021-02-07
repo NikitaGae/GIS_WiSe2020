@@ -6,8 +6,8 @@ var Pruefungsabgabe;
     async function main() {
         let location = window.location.pathname.split("/");
         let teil = location[location.length - 1];
-        //let url: string = "https://testgiswise2020.herokuapp.com";
-        let url = "http://localhost:8100";
+        let url = "https://testgiswise2020.herokuapp.com";
+        //let url: string = "http://localhost:8100";
         let knopf;
         switch (teil) {
             case "registrieren.html":
@@ -88,58 +88,9 @@ var Pruefungsabgabe;
             safe.appendChild(divNachricht);
             divNachricht.classList.add("alleNachrichten");
         }
-        /* let id: LogIn = JSON.parse(localStorage.getItem("response"));
-        let form: HTMLFormElement = <HTMLFormElement>document.getElementById("subjectForm");
-        let formdata: FormData = new FormData(form);
-        let query: URLSearchParams = new URLSearchParams(<URLSearchParams>formdata);
-        query.append("id", id._id);
-
-        let url: string = "http://localhost:8100/hauptseite";
-        url = url + "?" + query.toString();
-        console.log(url);
-        let response: Response = await fetch(url);
-        let antwortHTML: string = await response.text();
-        console.log(antwortHTML);
-        let antwortSplit: string[] = JSON.parse(antwortHTML.split("$")[1]);
-
-        let safe: HTMLDivElement = (<HTMLDivElement>document.getElementById("divNachrichten"));
-
-        for (let i: number = 0; i < antwortSplit.length; i++) {
-            let divNachricht: HTMLDivElement = <HTMLDivElement>document.createElement("div");
-            divNachricht.innerHTML = antwortSplit[i];
-            safe.appendChild(divNachricht);
-            divNachricht.classList.add("alleNachrichten");
-        } */
     }
+    //hier wird für jede Nachricht ein div erstellt und die Nachricht ins div iengefügt
     async function senden() {
-        //let myText: string = "Nachricht= ";
-        //myText += (<HTMLTextAreaElement>document.getElementById("subject")).value; */
-        /* let userJSON: LogIn = JSON.parse(localStorage.getItem("response"));
-        let abschicken: Daten = {_id: userJSON._id, nachricht: (<HTMLTextAreaElement>document.getElementById("subject")).value};
-        let url: string = "http://localhost:8100/hauptseite";
-        url = url + "?" + JSON.stringify(abschicken);
-        console.log(url);
-        await communicate(url); */
-        /* let userJSON: LogIn = JSON.parse(localStorage.getItem("response"));
-        let abschicken: Daten = {_id: userJSON._id, nachricht: (<HTMLFormElement>document.getElementById("subjectForm")).value};
-        
-
-        let query: URLSearchParams = new URLSearchParams(JSON.stringify(abschicken));
-        
-        let url: string = "http://localhost:8100/hauptseite";
-        url = url + "?" + query.toString();
-        console.log(url);
-        await communicate(url); */
-        /* let userJSON: LogIn = JSON.parse(localStorage.getItem("response"));
-        let form: HTMLFormElement = <HTMLFormElement> document.getElementById("subjectForm");
-        let formdata: FormData = new FormData(form);
-        let query: URLSearchParams = new URLSearchParams(<URLSearchParams>formdata);
-        query.append("id" , userJSON._id);
-        
-        let url: string = "http://localhost:8100/hauptseite";
-        url = url + "?" + query.toString();
-        console.log(url);
-        await communicate(url);*/
         let id = JSON.parse(localStorage.getItem("response"));
         let form = document.getElementById("subjectForm");
         let formdata = new FormData(form);
@@ -147,10 +98,8 @@ var Pruefungsabgabe;
         query.append("id", id._id);
         let url = "http://localhost:8100/hauptseite";
         url = url + "?" + query.toString();
-        //console.log(url);
         let response = await fetch(url);
         let antwortHTML = await response.text();
-        //console.log(antwortHTML);
         let antwortSplit = antwortHTML.split("$");
         //(<HTMLDivElement>document.getElementById("divNachrichten")).innerHTML = antwortSplit[1];
         let safe = document.getElementById("divNachrichten");
@@ -159,6 +108,7 @@ var Pruefungsabgabe;
         safe.appendChild(divNachricht);
         divNachricht.classList.add("alleNachrichten");
     }
+    //Jeder Nutzer wird unter einander aufgeschrieben und jedem nutzer wird ein Button zugewiesen 
     async function createUser() {
         for (let i = 0; i < Pruefungsabgabe.userArray.length; i++) {
             let div = document.createElement("div");
@@ -180,13 +130,13 @@ var Pruefungsabgabe;
             div.appendChild(semesterangabeP);
             let buttonFolgen = document.createElement("button");
             buttonFolgen.id = "buttonFolgen" + i;
-            //console.log(buttonFolgen.getAttribute("target"));
             buttonFolgen.classList.add("folgenButtonClass");
             buttonFolgen.innerHTML = "Folgen";
             buttonFolgen.addEventListener("click", handleFolgen);
             div.appendChild(buttonFolgen);
         }
     }
+    //function damit man anderen Nutzern Folgen kann
     function handleFolgen(_event) {
         let targetZaehler = _event.currentTarget.parentElement.getAttribute("target");
         document.getElementById("buttonFolgen" + targetZaehler).innerHTML = "Entfolgen";

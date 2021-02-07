@@ -11,8 +11,8 @@ var PruefungsabgabeServer;
     let port = Number(process.env.PORT);
     if (!port)
         port = 8100;
-    let databaseUrl = "mongodb://localhost:27017";
-    //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
+    //let databaseUrl: string = "mongodb://localhost:27017";
+    let databaseUrl = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
     startServer(port);
     connectToDatabase(databaseUrl);
     function startServer(_port) {
@@ -29,10 +29,10 @@ var PruefungsabgabeServer;
         let options = { useNewUrlParser: true, useUnifiedTopology: true };
         let mongoClient = new Mongo.MongoClient(_url, options);
         await mongoClient.connect();
-        log = mongoClient.db("test").collection("Snapchat");
+        log = mongoClient.db("Prüfungsabgabe").collection("Snapchat");
         console.log("Database connection ", log != undefined);
     }
-    //function zum vergleichen der eingegeben daten
+    //function zum vergleichen der eingegeben daten beim einloggen also nur das Passwort und der Name
     async function anmeldenVergleichen(_url) {
         let pathSplit = _url.split("?");
         let daten = pathSplit[1].split("&");
@@ -50,6 +50,7 @@ var PruefungsabgabeServer;
         }
         return null;
     }
+    //Hier sollen alle eingegeben sachen Verglichen werden mit der Datenbank und es wird geprüft ob es den Nutzer schon gibt
     async function registrierenVergleichen(_url) {
         let pathSplit = _url.split("?");
         let daten = pathSplit[1].split("&");
@@ -73,7 +74,8 @@ var PruefungsabgabeServer;
         }
         return null;
     }
-    //hier werden die server antworten geschrieben je nachdem auf welcher html seite wir uns befinden
+    //hier werden die server antworten geschrieben je nachdem auf welcher html seite wir uns befindendazu sollen noch daten mitgegeben werden wie z.B
+    //für das Profil die eingegeben sachen oder für den Nutzer alle NUtzer die existieren
     async function handleRequest(_request, _response) {
         console.log("I hear voices!");
         _response.setHeader("content-type", "text/html; charset=utf-8");
@@ -134,40 +136,10 @@ var PruefungsabgabeServer;
                 _response.write("Profil$" + "Nachname: " + user.nachname + " " + "Vorname: " + user.vorname + "," + " " + "Studiengang: " + user.studiengang + " " + "Semester: " + user.semesterangabe + "</br>");
             }
             else if (path == "/hauptseite") {
-                /* let message: Daten = JSON.parse(JSON.stringify(url.query));
-
-                log.findOneAndUpdate({_id: new Mongo.ObjectId(message._id)}, { $set: { beitraege: message.nachricht } });
-                console.log(await log.findOne({_id: new Mongo.ObjectId(message._id)})); */
                 let message = url.query;
                 log.findOneAndUpdate({ _id: new Mongo.ObjectId(message.id) }, { $push: { beitraege: message.subject } });
                 _response.write("Nachricht$" + message.subject);
-                /* for (let i: number = allMsg.length - 1; i >= 0; i--) {
-                    for (let j: number = allMsg[i].beitraege.length - 1; j >= 0; j--) {
-                        nachricht += allMsg[i].beitraege[j] + "</br>";
-                    }
-                } */
-                //_response.write("hauptseite$" + "Nachricht");
-                //db.updateOne.update({vorname: },{$set :{token:12345}})
-                /* log.findOneAndUpdate({user._id});
-    
-                _response.write(user.beitraege);
-                 */
-            } /* else if (path == "/hauptseite") {
-
-                let message: ParsedUrlQuery = url.query;
-                log.findOneAndUpdate({ _id: new Mongo.ObjectId(<string>message.id) }, { $push: { beitraege: message.subject } });
-
-                let allMsg: LogIn[] = await log.find().toArray();
-                let nachricht: String[] = [];
-
-                for (let i: number = allMsg.length - 1; i >= 0; i--) {
-                    for (let j: number = allMsg[i].beitraege.length - 1; j >= 0; j--) {
-                        nachricht.push(allMsg[i].beitraege[j]);
-                    }
-                }
-
-                _response.write("Daten$" + JSON.stringify(nachricht));
-            } */
+            }
             _response.end();
         }
     }
