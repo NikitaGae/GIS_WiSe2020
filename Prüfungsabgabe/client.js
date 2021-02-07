@@ -70,13 +70,15 @@ var Pruefungsabgabe;
             document.getElementById("divNachrichten").innerHTML = antwortHTML;
         }
     }
+    //hier sollen die alten Nachrichten in die divs eingefügt werden die schon vorher geschrieben wurden damit man alle nachrichten sieht und nicht nur die nach der anmledung
     async function nachrichtenAbrufen() {
         let id = JSON.parse(localStorage.getItem("responseNachricht"));
         let form = document.getElementById("subjectForm");
         let formdata = new FormData(form);
         let query = new URLSearchParams(formdata);
         query.append("id", id._id);
-        let url = "http://localhost:8100/hauptseite";
+        //let url: string = "http://localhost:8100/hauptseite";
+        let url = "https://testgiswise2020.herokuapp.com";
         url = url + "?" + query.toString();
         let response = await fetch(url);
         let antwortHTML = await response.text();
@@ -89,14 +91,15 @@ var Pruefungsabgabe;
             divNachricht.classList.add("alleNachrichten");
         }
     }
-    //hier wird für jede Nachricht ein div erstellt und die Nachricht ins div iengefügt
+    //hier wird für jede Nachricht ein div erstellt und die Nachricht ins div eingefügt
     async function senden() {
         let id = JSON.parse(localStorage.getItem("response"));
         let form = document.getElementById("subjectForm");
         let formdata = new FormData(form);
         let query = new URLSearchParams(formdata);
         query.append("id", id._id);
-        let url = "http://localhost:8100/hauptseite";
+        //let url: string = "http://localhost:8100/hauptseite";
+        let url = "https://testgiswise2020.herokuapp.com";
         url = url + "?" + query.toString();
         let response = await fetch(url);
         let antwortHTML = await response.text();

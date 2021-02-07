@@ -15,6 +15,7 @@ namespace Pruefungsabgabe {
 
     main();
 
+
     async function main(): Promise<void> {
         let location: string[] = window.location.pathname.split("/");
         let teil: string = location[location.length - 1];
@@ -86,7 +87,7 @@ namespace Pruefungsabgabe {
         }
     }
 
-
+    //hier sollen die alten Nachrichten in die divs eingefügt werden die schon vorher geschrieben wurden damit man alle nachrichten sieht und nicht nur die nach der anmledung
     async function nachrichtenAbrufen(): Promise<void> {
         let id: LogIn = JSON.parse(localStorage.getItem("responseNachricht"));
         let form: HTMLFormElement = <HTMLFormElement>document.getElementById("subjectForm");
@@ -94,7 +95,8 @@ namespace Pruefungsabgabe {
         let query: URLSearchParams = new URLSearchParams(<URLSearchParams>formdata);
         query.append("id", id._id);
 
-        let url: string = "http://localhost:8100/hauptseite";
+        //let url: string = "http://localhost:8100/hauptseite";
+        let url: string = "https://testgiswise2020.herokuapp.com";
         url = url + "?" + query.toString();
         let response: Response = await fetch(url);
         let antwortHTML: string = await response.text();
@@ -110,7 +112,7 @@ namespace Pruefungsabgabe {
         }
     }
 
-    //hier wird für jede Nachricht ein div erstellt und die Nachricht ins div iengefügt
+    //hier wird für jede Nachricht ein div erstellt und die Nachricht ins div eingefügt
     async function senden(): Promise<void> {
         let id: LogIn = JSON.parse(localStorage.getItem("response"));
         let form: HTMLFormElement = <HTMLFormElement>document.getElementById("subjectForm");
@@ -118,7 +120,8 @@ namespace Pruefungsabgabe {
         let query: URLSearchParams = new URLSearchParams(<URLSearchParams>formdata);
         query.append("id", id._id);
 
-        let url: string = "http://localhost:8100/hauptseite";
+        //let url: string = "http://localhost:8100/hauptseite";
+        let url: string = "https://testgiswise2020.herokuapp.com";
         url = url + "?" + query.toString();
         let response: Response = await fetch(url);
         let antwortHTML: string = await response.text();

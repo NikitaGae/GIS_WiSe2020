@@ -125,7 +125,6 @@ export namespace PruefungsabgabeServer {
                 if (user == null) {
                     _response.write("User nicht gefunden überprüfen sie ihre eingabe$");
                 } else {
-                    //_response.write("User gefunden");
 
                     let message2: ParsedUrlQuery = url.query;
                     log.findOneAndUpdate({ _id: new Mongo.ObjectId(<string>message2.id) }, { $push: { beitraege: message2.subject } });
@@ -168,8 +167,6 @@ export namespace PruefungsabgabeServer {
                 _response.write("Nutzer$" + jsonString);
 
             } else if (path == "/profil") {
-                /* let allUser: String[] = await log.find().toArray();
-                let logInArrayJSON: string = JSON.stringify(allUser); */
                 _response.write("Profil$" + "Nachname: " + user.nachname + " " + "Vorname: " + user.vorname + "," + " " + "Studiengang: " + user.studiengang + " " + "Semester: " + user.semesterangabe + "</br>");
 
             } else if (path == "/hauptseite") {
