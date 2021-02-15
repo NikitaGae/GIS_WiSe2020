@@ -120,7 +120,6 @@ export namespace PruefungsabgabeServer {
                 if (user == null) {
                     _response.write("User nicht gefunden überprüfen sie ihre eingabe$");
                 } else {
-
                     let message2: ParsedUrlQuery = url.query;
                     log.findOneAndUpdate({ _id: new Mongo.ObjectId(<string>message2.id) }, { $push: { beitraege: message2.subject } });
 
@@ -128,13 +127,13 @@ export namespace PruefungsabgabeServer {
                     let nachricht: String[] = [];
                     console.log(allMsg);
 
-                    if (allMsg != null) {
-                        for (let i: number = allMsg.length - 1; i >= 0; i--) {
-                            for (let j: number = allMsg[i].beitraege.length - 1; j >= 0; j--) {
-                                nachricht.push(allMsg[i].beitraege[j] + "</br>");
-                            }
+                    //if (allMsg != null) {
+                    for (let i: number = allMsg.length - 1; i >= 0; i--) {
+                        for (let j: number = allMsg[i].beitraege.length - 1; j >= 0; j--) {
+                            nachricht.push(allMsg[i].beitraege[j] + "</br>");
                         }
                     }
+                    //}
                     _response.write("User$" + "Nachname: " + user.nachname + " " + "Vorname: " + user.vorname + "," + " " + "Studiengang: " + user.studiengang + " " + "Semester: " + user.semesterangabe + "$</br>" + "Daten$" + JSON.stringify(nachricht));
                 }
             } else if (path == "/registrieren") {
