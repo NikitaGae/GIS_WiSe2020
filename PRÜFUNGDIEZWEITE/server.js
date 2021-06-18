@@ -11,9 +11,9 @@ var P_3_1Server;
     let port = Number(process.env.PORT);
     if (!port)
         port = 8100;
-    //let databaseUrl: string = "mongodb://localhost:27017";
+    let databaseUrl = "mongodb://localhost:27017";
     //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
-    let databaseUrl = "mongodb+srv://Testuser:Testuser@cluster0.ymlqy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@cluster0.ymlqy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
     startServer(port);
     connectToDatabase(databaseUrl);
     function startServer(_port) {
@@ -59,8 +59,8 @@ var P_3_1Server;
         let ntzPasswort = daten[1].split("=");
         let logInArray = await log.find().toArray();
         for (let i = 0; i < logInArray.length; i++) {
-            if (ntzUserName[0] == (logInArray[i].nutzername)) {
-                if (ntzPasswort[0] == (logInArray[i].passwort)) {
+            if (ntzUserName[1] == (logInArray[i].nutzername)) {
+                if (ntzPasswort[1] == (logInArray[i].passwort)) {
                     JSON.stringify(logInArray);
                     return true;
                 }
