@@ -30,24 +30,39 @@ var P_3_1Server;
         let options = { useNewUrlParser: true, useUnifiedTopology: true };
         let mongoClient = new Mongo.MongoClient(_url, options);
         await mongoClient.connect();
-        log = mongoClient.db("test").collection("Students");
+        log = mongoClient.db("test").collection("user");
         console.log("Database connection ", log != undefined);
     }
     //function zum vergleichen der eingegeben daten
-    async function vergleichen(_url) {
+    async function vergleichenRegistrieren(_url) {
         let pathSplit = _url.split("?");
         let daten = pathSplit[1].split("&");
-        let ntzName = daten[0].split("=");
-        let ntzFirstname = daten[1].split("=");
-        let ntzRegistration = daten[2].split("=");
+        let ntzNutzername = daten[0].split("=");
+        /* let ntzVorname: string[] = daten[1].split("=");
+        let ntzNachname: string[] = daten[2].split("=");
+        let ntzPasswort: string[] = daten[3].split("="); */
         let logInArray = await log.find().toArray();
         for (let i = 0; i < logInArray.length; i++) {
-            if (ntzName[1] == (logInArray[i].vorname)) {
-                if (ntzFirstname[1] == (logInArray[i].nachname)) {
-                    if (ntzRegistration[1] == logInArray[i].matrikelnummer) {
-                        JSON.stringify(logInArray);
-                        return true;
-                    }
+            if (ntzNutzername[1] == (logInArray[i].vorname)) {
+                JSON.stringify(logInArray);
+                return true;
+            }
+        }
+        return false;
+    }
+    async function vergleichenAnmelden(_url) {
+        let pathSplit = _url.split("?");
+        let daten = pathSplit[1].split("&");
+        let ntzUserName = daten[0].split("=");
+        /* let ntzVorname: string[] = daten[1].split("=");
+        let ntzNachname: string[] = daten[2].split("="); */
+        let ntzPasswort = daten[3].split("=");
+        let logInArray = await log.find().toArray();
+        for (let i = 0; i < logInArray.length; i++) {
+            if (ntzUserName[1] == (logInArray[i].nutzername)) {
+                if (ntzPasswort[1] == (logInArray[i].passwort)) {
+                    JSON.stringify(logInArray);
+                    return true;
                 }
             }
         }
@@ -63,7 +78,7 @@ var P_3_1Server;
             let url = Url.parse(_request.url, true);
             let path = url.pathname;
             if (path == "/anmelden") {
-                if (await vergleichen(url.path) == false) {
+                if (await vergleichenAnmelden(url.path) == false) {
                     _response.write("User nicht gefunden überprüfen sie ihre eingabe");
                 }
                 else {
@@ -71,7 +86,7 @@ var P_3_1Server;
                 }
             }
             else if (path == "/registrieren") {
-                if (await vergleichen(url.path) == false) {
+                if (await vergleichenRegistrieren(url.path) == false) {
                     log.insertOne(url.query);
                     _response.write("User erstellt");
                 }

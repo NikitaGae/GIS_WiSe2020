@@ -5,9 +5,10 @@ import * as Mongo from "mongodb";
 export namespace P_3_1Server {
 
     interface LogIn {
+        nutzername: string;
         vorname: string;
         nachname: string;
-        matrikelnummer: string;
+        passwort: string;
     }
 
     let log: Mongo.Collection;
@@ -42,27 +43,46 @@ export namespace P_3_1Server {
         let options: Mongo.MongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true };
         let mongoClient: Mongo.MongoClient = new Mongo.MongoClient(_url, options);
         await mongoClient.connect();
-        log = mongoClient.db("test").collection("Students");
+        log = mongoClient.db("test").collection("user");
         console.log("Database connection ", log != undefined);
     }
     //function zum vergleichen der eingegeben daten
-    async function vergleichen(_url: string): Promise<boolean> {
+    async function vergleichenRegistrieren(_url: string): Promise<boolean> {
 
         let pathSplit: string[] = _url.split("?");
         let daten: string[] = pathSplit[1].split("&");
-        let ntzName: string[] = daten[0].split("=");
-        let ntzFirstname: string[] = daten[1].split("=");
-        let ntzRegistration: string[] = daten[2].split("=");
+        let ntzNutzername: string[] = daten[0].split("=");
+        /* let ntzVorname: string[] = daten[1].split("=");
+        let ntzNachname: string[] = daten[2].split("=");
+        let ntzPasswort: string[] = daten[3].split("="); */
 
         let logInArray: LogIn[] = await log.find().toArray();
 
         for (let i: number = 0; i < logInArray.length; i++) {
-            if (ntzName[1] == (logInArray[i].vorname)) {
-                if (ntzFirstname[1] == (logInArray[i].nachname)) {
-                    if (ntzRegistration[1] == logInArray[i].matrikelnummer) {
-                        JSON.stringify(logInArray);
-                        return true;
-                    }
+            if (ntzNutzername[1] == (logInArray[i].vorname)) {
+                JSON.stringify(logInArray);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    async function vergleichenAnmelden(_url: string): Promise<boolean> {
+
+        let pathSplit: string[] = _url.split("?");
+        let daten: string[] = pathSplit[1].split("&");
+        let ntzUserName: string[] = daten[0].split("=");
+        /* let ntzVorname: string[] = daten[1].split("=");
+        let ntzNachname: string[] = daten[2].split("="); */
+        let ntzPasswort: string[] = daten[3].split("=");
+
+        let logInArray: LogIn[] = await log.find().toArray();
+
+        for (let i: number = 0; i < logInArray.length; i++) {
+            if (ntzUserName[1] == (logInArray[i].nutzername)) {
+                if (ntzPasswort[1] == (logInArray[i].passwort)) {
+                    JSON.stringify(logInArray);
+                    return true;
                 }
             }
         }
@@ -82,13 +102,13 @@ export namespace P_3_1Server {
             let path: String | null = url.pathname;
 
             if (path == "/anmelden") {
-                if (await vergleichen(url.path) == false) {
+                if (await vergleichenAnmelden(url.path) == false) {
                     _response.write("User nicht gefunden überprüfen sie ihre eingabe");
                 } else {
                     _response.write("User gefunden");
                 }
             } else if (path == "/registrieren") {
-                if (await vergleichen(url.path) == false) {
+                if (await vergleichenRegistrieren(url.path) == false) {
                     log.insertOne(url.query);
                     _response.write("User erstellt");
                 } else {
