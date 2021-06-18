@@ -79,8 +79,8 @@ export namespace P_3_1Server {
         let logInArray: LogIn[] = await log.find().toArray();
 
         for (let i: number = 0; i < logInArray.length; i++) {
-            if (ntzUserName[1] == (logInArray[i].nutzername)) {
-                if (ntzPasswort[1] == (logInArray[i].passwort)) {
+            if (ntzUserName[0] == (logInArray[i].nutzername)) {
+                if (ntzPasswort[0] == (logInArray[i].passwort)) {
                     JSON.stringify(logInArray);
                     return true;
                 }

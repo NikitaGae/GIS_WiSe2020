@@ -59,8 +59,8 @@ var P_3_1Server;
         let ntzPasswort = daten[1].split("=");
         let logInArray = await log.find().toArray();
         for (let i = 0; i < logInArray.length; i++) {
-            if (ntzUserName[1] == (logInArray[i].nutzername)) {
-                if (ntzPasswort[1] == (logInArray[i].passwort)) {
+            if (ntzUserName[0] == (logInArray[i].nutzername)) {
+                if (ntzPasswort[0] == (logInArray[i].passwort)) {
                     JSON.stringify(logInArray);
                     return true;
                 }
