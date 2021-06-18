@@ -18,9 +18,9 @@ export namespace P_3_1Server {
     if (!port)
         port = 8100;
 
-    //let databaseUrl: string = "mongodb://localhost:27017";
+    let databaseUrl: string = "mongodb://localhost:27017";
     //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
-    let databaseUrl: string = "mongodb+srv://Testuser:Testuser@cluster0.ymlqy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@cluster0.ymlqy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
     startServer(port);
     connectToDatabase(databaseUrl);
 
@@ -74,7 +74,7 @@ export namespace P_3_1Server {
         let ntzUserName: string[] = daten[0].split("=");
         /* let ntzVorname: string[] = daten[1].split("=");
         let ntzNachname: string[] = daten[2].split("="); */
-        let ntzPasswort: string[] = daten[3].split("=");
+        let ntzPasswort: string[] = daten[1].split("=");
 
         let logInArray: LogIn[] = await log.find().toArray();
 
