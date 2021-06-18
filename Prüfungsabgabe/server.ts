@@ -25,8 +25,8 @@ export namespace PruefungsabgabeServer {
     if (!port)
         port = 8100;
 
-    //let databaseUrl: string = "mongodb://localhost:27017";
-    let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
+    let databaseUrl: string = "mongodb://localhost:27017";
+    //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
 
     startServer(port);
     connectToDatabase(databaseUrl);
@@ -127,13 +127,13 @@ export namespace PruefungsabgabeServer {
                     let nachricht: String[] = [];
                     console.log(allMsg);
 
-                    //if (allMsg != null) {
-                    for (let i: number = allMsg.length - 1; i >= 0; i--) {
-                        for (let j: number = allMsg[i].beitraege.length - 1; j >= 0; j--) {
-                            nachricht.push(allMsg[i].beitraege[j] + "</br>");
+                    if (allMsg != null) {
+                        for (let i: number = allMsg.length - 1; i >= 0; i--) {
+                            for (let j: number = allMsg[i].beitraege.length - 1; j >= 0; j--) {
+                                nachricht.push(allMsg[i].beitraege[j] + "</br>");
+                            }
                         }
                     }
-                    //}
                     _response.write("User$" + "Nachname: " + user.nachname + " " + "Vorname: " + user.vorname + "," + " " + "Studiengang: " + user.studiengang + " " + "Semester: " + user.semesterangabe + "$</br>" + "Daten$" + JSON.stringify(nachricht));
                 }
             } else if (path == "/registrieren") {

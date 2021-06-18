@@ -5,13 +5,33 @@ namespace P_3_1Server {
 
     //hier werden die server antworten in das div mit der id text geschrieben
     async function communicate(_url: RequestInfo): Promise<void> {
+        /* let formData: FormData = new FormData(document.forms[0]);
+        let query: URLSearchParams = new URLSearchParams(<any>formData);
+        _url = _url + "?" + query.toString();
+        let response: Response = await fetch(_url); */
+
+
+
         let formData: FormData = new FormData(document.forms[0]);
         let query: URLSearchParams = new URLSearchParams(<any>formData);
         _url = _url + "?" + query.toString();
         let response: Response = await fetch(_url);
-
         let antwortHTML: string = await response.text();
-        (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
+
+        if (antwortHTML == "User gefunden") {
+            window.open("alleRezepte.html");
+            //localStorage.setItem("responseUser", antwortSplit[1]);
+        } else if (antwortHTML == "User erstellt") {
+            window.open("alleRezepte.html");
+            (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
+        } else if (antwortHTML == "User nicht gefunden überprüfen sie ihre eingabe") {
+            (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
+        } else if (antwortHTML == "User existiert schon") {
+            (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
+        }
+
+        /* let antwortHTML: string = await response.text();
+        (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML; */
     }
     //hier soll er je nach  html seite registrieren anmelden oder nutzer in die url anhängen damit später erkannt werden kann wo man ist
     async function laden(): Promise<void> {
@@ -22,11 +42,11 @@ namespace P_3_1Server {
         let url: string = "http://localhost:8100";
 
         switch (teil) {
-            case "index.html":
+            case "registrieren.html":
                 url += "/registrieren";
                 break;
             case "anmelden.html":
-                url += "/login";
+                url += "/anmelden";
                 break;
             case "nutzer.html":
                 url += "/nutzer";

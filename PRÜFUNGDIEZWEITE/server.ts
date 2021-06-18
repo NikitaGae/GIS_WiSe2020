@@ -17,8 +17,8 @@ export namespace P_3_1Server {
     if (!port)
         port = 8100;
 
-    let databaseUrl: string = "mongodb://localhost:27017";
-    //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
+    //let databaseUrl: string = "mongodb://localhost:27017";
+    let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
 
     startServer(port);
     connectToDatabase(databaseUrl);
@@ -81,7 +81,7 @@ export namespace P_3_1Server {
             let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true);
             let path: String | null = url.pathname;
 
-            if (path == "/login") {
+            if (path == "/anmelden") {
                 if (await vergleichen(url.path) == false) {
                     _response.write("User nicht gefunden überprüfen sie ihre eingabe");
                 } else {

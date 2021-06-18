@@ -19,8 +19,8 @@ namespace Pruefungsabgabe {
     async function main(): Promise<void> {
         let location: string[] = window.location.pathname.split("/");
         let teil: string = location[location.length - 1];
-        let url: string = "https://testgiswise2020.herokuapp.com";
-        //let url: string = "http://localhost:8100";
+        //let url: string = "https://testgiswise2020.herokuapp.com";
+        let url: string = "http://localhost:8100";
 
         let knopf: HTMLButtonElement;
 
