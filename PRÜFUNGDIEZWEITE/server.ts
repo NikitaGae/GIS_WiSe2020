@@ -11,16 +11,30 @@ export namespace P_3_1Server {
         passwort: string;
     }
 
+    interface Rezept {
+        zutatEins: string;
+        zutatZwei: string;
+        zutatDrei: string;
+        zutatVier: string;
+        zutatFuenf: string;
+        zutatSechs: string;
+        zutatSieben: string;
+        zutatAcht: string;
+        zutatNeun: string;
+        zutatZehn: string;
+    }
+
     let log: Mongo.Collection;
+    let rezepte: Mongo.Collection;
 
     console.log("Starting server");
     let port: number = Number(process.env.PORT);
     if (!port)
         port = 8100;
 
-    let databaseUrl: string = "mongodb://localhost:27017";
+    //let databaseUrl: string = "mongodb://localhost:27017";
     //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
-    //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@cluster0.ymlqy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    let databaseUrl: string = "mongodb+srv://Testuser:Testuser@cluster0.ymlqy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
     startServer(port);
     connectToDatabase(databaseUrl);
 
@@ -44,6 +58,7 @@ export namespace P_3_1Server {
         let mongoClient: Mongo.MongoClient = new Mongo.MongoClient(_url, options);
         await mongoClient.connect();
         log = mongoClient.db("test").collection("user");
+        rezepte = mongoClient.db("test").collection("rezepte");
         console.log("Database connection ", log != undefined);
     }
     //function zum vergleichen der eingegeben daten
@@ -97,7 +112,9 @@ export namespace P_3_1Server {
 
         if (_request.url) {
 
-            let logInArray: LogIn[] = await log.find().toArray();
+            //let logInArray: LogIn[] = await log.find().toArray();
+            let rezeptArray: Rezept[] = await rezepte.find().toArray();
+            //let RezeptArray: Rezept[] = await rezepte.find().toArray();
             let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true);
             let path: String | null = url.pathname;
 
@@ -114,9 +131,22 @@ export namespace P_3_1Server {
                 } else {
                     _response.write("User existiert schon");
                 }
-            } else if (path == "/nutzer") {
-                let logInArrayJSON: string = JSON.stringify(logInArray);
-                _response.write(logInArrayJSON);
+            } else if (path == "/eigenRezept") {
+                rezepte.insertOne(url.query);
+                _response.write(rezeptArray);
+            } else if (path == "/alleRezepte") {
+                console.log("hi");
+                let jsonString: string = "";
+
+                jsonString += "[";
+                for (let i: number = 0; i < rezeptArray.length; i++) {
+                    jsonString += JSON.stringify(rezeptArray[i]);
+                    if (i < rezeptArray.length - 1) {
+                        jsonString += ",";
+                    }
+                }
+                jsonString += "]";
+                _response.write("Rezept=" + jsonString);
             }
             _response.end();
         }

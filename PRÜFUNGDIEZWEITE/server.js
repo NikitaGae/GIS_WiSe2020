@@ -7,13 +7,14 @@ const Mongo = require("mongodb");
 var P_3_1Server;
 (function (P_3_1Server) {
     let log;
+    let rezepte;
     console.log("Starting server");
     let port = Number(process.env.PORT);
     if (!port)
         port = 8100;
-    let databaseUrl = "mongodb://localhost:27017";
+    //let databaseUrl: string = "mongodb://localhost:27017";
     //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
-    //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@cluster0.ymlqy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    let databaseUrl = "mongodb+srv://Testuser:Testuser@cluster0.ymlqy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
     startServer(port);
     connectToDatabase(databaseUrl);
     function startServer(_port) {
@@ -31,6 +32,7 @@ var P_3_1Server;
         let mongoClient = new Mongo.MongoClient(_url, options);
         await mongoClient.connect();
         log = mongoClient.db("test").collection("user");
+        rezepte = mongoClient.db("test").collection("rezepte");
         console.log("Database connection ", log != undefined);
     }
     //function zum vergleichen der eingegeben daten
@@ -74,7 +76,9 @@ var P_3_1Server;
         _response.setHeader("content-type", "text/html; charset=utf-8");
         _response.setHeader("Access-Control-Allow-Origin", "*");
         if (_request.url) {
-            let logInArray = await log.find().toArray();
+            //let logInArray: LogIn[] = await log.find().toArray();
+            let rezeptArray = await rezepte.find().toArray();
+            //let RezeptArray: Rezept[] = await rezepte.find().toArray();
             let url = Url.parse(_request.url, true);
             let path = url.pathname;
             if (path == "/anmelden") {
@@ -94,9 +98,22 @@ var P_3_1Server;
                     _response.write("User existiert schon");
                 }
             }
-            else if (path == "/nutzer") {
-                let logInArrayJSON = JSON.stringify(logInArray);
-                _response.write(logInArrayJSON);
+            else if (path == "/eigenRezept") {
+                rezepte.insertOne(url.query);
+                _response.write(rezeptArray);
+            }
+            else if (path == "/alleRezepte") {
+                console.log("hi");
+                let jsonString = "";
+                jsonString += "[";
+                for (let i = 0; i < rezeptArray.length; i++) {
+                    jsonString += JSON.stringify(rezeptArray[i]);
+                    if (i < rezeptArray.length - 1) {
+                        jsonString += ",";
+                    }
+                }
+                jsonString += "]";
+                _response.write("Rezept=" + jsonString);
             }
             _response.end();
         }
