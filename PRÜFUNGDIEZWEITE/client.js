@@ -77,8 +77,8 @@ var P_3_1Server;
             let komplettDiv = document.createElement("div");
             zutatenDiv.id = "ausgewaehltesRezept" + i;
             zutatenDiv.classList.add("alleRezepte");
-            document.getElementById("text").appendChild(zutatenDiv);
-            zutatenDiv.setAttribute("target", i.toString());
+            document.getElementById("text").appendChild(komplettDiv);
+            komplettDiv.setAttribute("target", i.toString());
             komplettDiv.appendChild(zutatenDiv);
             let zutatEins = document.createElement("p");
             zutatEins.innerHTML = "Erste Zutat: " + P_3_1Server.rezepteArray[i].zutatEins;
@@ -118,6 +118,21 @@ var P_3_1Server;
             komplettDiv.appendChild(buttonFavorisieren);
         }
     }
+    function uebertragen() {
+        let favoritenArray = [];
+        for (let i = 1; i <= localStorage.i; i++) {
+            favoritenArray[i] = localStorage.getItem("favoriten" + i);
+            let kopierenDiv = document.createElement("div");
+            kopierenDiv.id = "rezept" + i;
+            kopierenDiv.classList.add("rezepteClass");
+            kopierenDiv.innerHTML = favoritenArray[i];
+            document.getElementById("favorit")?.appendChild(kopierenDiv);
+            let buttonEntfavorisieren = document.createElement("button");
+            buttonEntfavorisieren.innerHTML = "Entfavorisieren";
+            buttonEntfavorisieren.addEventListener("click", entfavorisieren);
+            kopierenDiv.appendChild(buttonEntfavorisieren);
+        }
+    }
     function favorisieren(_event) {
         let localstorageArray = [];
         let targetZaehler = _event.currentTarget.parentElement.getAttribute("target");
@@ -131,18 +146,8 @@ var P_3_1Server;
         localstorageArray[localStorage.i] = document.getElementById("ausgewaehltesRezept" + targetZaehler)?.innerHTML;
         localStorage.setItem("favoriten" + localStorage.i, localstorageArray[localStorage.i]);
     }
-    function uebertragen() {
-        let favoritenArray = [];
-        for (let i = 1; i <= localStorage.i; i++) {
-            favoritenArray[i] = localStorage.getItem("favoriten" + i);
-            let kopierenDiv = document.createElement("div");
-            kopierenDiv.id = "rezept" + i;
-            kopierenDiv.classList.add("rezepteClass");
-            kopierenDiv.innerHTML = favoritenArray[i];
-            document.getElementById("favorit")?.appendChild(kopierenDiv);
-            let buttonEntfavorisieren = document.createElement("button");
-            kopierenDiv.appendChild(buttonEntfavorisieren);
-        }
+    function entfavorisieren(_event) {
+        console.log("EFfF");
     }
 })(P_3_1Server || (P_3_1Server = {}));
 //# sourceMappingURL=client.js.map

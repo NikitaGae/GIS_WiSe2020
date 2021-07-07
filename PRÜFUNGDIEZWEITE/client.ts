@@ -93,8 +93,8 @@ namespace P_3_1Server {
             
             zutatenDiv.id = "ausgewaehltesRezept" + i;
             zutatenDiv.classList.add("alleRezepte");
-            document.getElementById("text").appendChild(zutatenDiv);
-            zutatenDiv.setAttribute("target", i.toString());
+            document.getElementById("text").appendChild(komplettDiv);
+            komplettDiv.setAttribute("target", i.toString());
             komplettDiv.appendChild(zutatenDiv);
 
             let zutatEins: HTMLElement = document.createElement("p");
@@ -146,6 +146,24 @@ namespace P_3_1Server {
         }
     }
 
+    function uebertragen(): void {
+        let favoritenArray: string[] = [];
+        
+        for (let i: number = 1; i <= localStorage.i; i++) {
+            favoritenArray[i] = localStorage.getItem("favoriten" + i)!;
+
+            let kopierenDiv: HTMLDivElement = document.createElement("div");
+            kopierenDiv.id = "rezept" + i;
+            kopierenDiv.classList.add("rezepteClass");
+            kopierenDiv.innerHTML = favoritenArray[i];
+            document.getElementById("favorit")?.appendChild(kopierenDiv);
+            
+            let buttonEntfavorisieren: HTMLButtonElement = document.createElement("button");
+            buttonEntfavorisieren.innerHTML = "Entfavorisieren";
+            buttonEntfavorisieren.addEventListener("click", entfavorisieren);
+            kopierenDiv.appendChild(buttonEntfavorisieren);
+        }
+    }
 
     function favorisieren(_event: Event): void {
         let localstorageArray: string[] = [];
@@ -164,18 +182,8 @@ namespace P_3_1Server {
 
     }
 
-    function uebertragen(): void {
-        let favoritenArray: string[] = [];
-        
-        for (let i: number = 1; i <= localStorage.i; i++) {
-            favoritenArray[i] = localStorage.getItem("favoriten" + i)!;
-            let kopierenDiv: HTMLDivElement = document.createElement("div");
-            kopierenDiv.id = "rezept" + i;
-            kopierenDiv.classList.add("rezepteClass");
-            kopierenDiv.innerHTML = favoritenArray[i];
-            document.getElementById("favorit")?.appendChild(kopierenDiv);
-            let buttonEntfavorisieren: HTMLButtonElement = document.createElement("button");
-            kopierenDiv.appendChild(buttonEntfavorisieren);
-        }
+    function entfavorisieren(_event: Event): void {
+        console.log("EFfF");
     }
+
 }
