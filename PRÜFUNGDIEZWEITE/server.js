@@ -103,7 +103,6 @@ var P_3_1Server;
                 _response.write("Rezept wurde erstellt");
             }
             else if (path == "/alleRezepte") {
-                console.log("hi");
                 let jsonString = "";
                 jsonString += "[";
                 for (let i = 0; i < rezeptArray.length; i++) {

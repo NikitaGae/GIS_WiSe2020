@@ -135,7 +135,6 @@ export namespace P_3_1Server {
                 rezepte.insertOne(url.query);
                 _response.write("Rezept wurde erstellt");
             } else if (path == "/alleRezepte") {
-                console.log("hi");
                 let jsonString: string = "";
 
                 jsonString += "[";

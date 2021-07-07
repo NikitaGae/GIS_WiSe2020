@@ -23,8 +23,8 @@ namespace P_3_1Server {
     async function main(): Promise<void> {
         let location: string[] = window.location.pathname.split("/");
         let teil: string = location[location.length - 1];
-        let url: string = "https://testgiswise2020.herokuapp.com";
-        //let url: string = "http://localhost:8100";
+        //let url: string = "https://testgiswise2020.herokuapp.com";
+        let url: string = "http://localhost:8100";
 
         switch (teil) {
             case "registrieren.html":
@@ -88,58 +88,61 @@ namespace P_3_1Server {
 
     async function rezepteAnzeigen(): Promise<void> {
         for (let i: number = 0; i < rezepteArray.length; i++) {
-            let div: HTMLDivElement = <HTMLDivElement>document.createElement("div");
-            div.id = "Rezept" + i;
-            div.classList.add("alleRezepte");
-            document.getElementById("text").appendChild(div);
-            div.setAttribute("target", i.toString());
+            let zutatenDiv: HTMLDivElement = <HTMLDivElement>document.createElement("div");
+            let komplettDiv: HTMLDivElement = <HTMLDivElement>document.createElement("div");
+            
+            zutatenDiv.id = "ausgewaehltesRezept" + i;
+            zutatenDiv.classList.add("alleRezepte");
+            document.getElementById("text").appendChild(zutatenDiv);
+            zutatenDiv.setAttribute("target", i.toString());
+            komplettDiv.appendChild(zutatenDiv);
 
             let zutatEins: HTMLElement = document.createElement("p");
             zutatEins.innerHTML = "Erste Zutat: " + rezepteArray[i].zutatEins;
-            div.appendChild(zutatEins);
-
+            zutatenDiv.appendChild(zutatEins);
+            
             let zutatZwei: HTMLElement = document.createElement("p");
             zutatZwei.innerHTML = "Zweite Zutat: " + rezepteArray[i].zutatZwei;
-            div.appendChild(zutatZwei);
+            zutatenDiv.appendChild(zutatZwei);
 
             let zutatDrei: HTMLElement = document.createElement("p");
             zutatDrei.innerHTML = "Dritte Zutat: " + rezepteArray[i].zutatDrei;
-            div.appendChild(zutatDrei);
-
+            zutatenDiv.appendChild(zutatDrei);
+            
             let zutatVier: HTMLElement = document.createElement("p");
             zutatVier.innerHTML = "Vierte Zutat: " + rezepteArray[i].zutatVier;
-            div.appendChild(zutatVier);
-
+            zutatenDiv.appendChild(zutatVier);
+            
             let zutatFuenf: HTMLElement = document.createElement("p");
             zutatFuenf.innerHTML = "Fünfte Zutat: " + rezepteArray[i].zutatFuenf;
-            div.appendChild(zutatFuenf);
-
+            zutatenDiv.appendChild(zutatFuenf);
+            
             let zutatSechs: HTMLElement = document.createElement("p");
             zutatSechs.innerHTML = "Sechste Zutat: " + rezepteArray[i].zutatSechs;
-            div.appendChild(zutatSechs);
-
+            zutatenDiv.appendChild(zutatSechs);
+            
             let zutatSieben: HTMLElement = document.createElement("p");
             zutatSieben.innerHTML = "Siebte Zutat: " + rezepteArray[i].zutatSieben;
-            div.appendChild(zutatSieben);
-
+            zutatenDiv.appendChild(zutatSieben);
+            
             let zutatAcht: HTMLElement = document.createElement("p");
             zutatAcht.innerHTML = "Achte Zutat: " + rezepteArray[i].zutatAcht;
-            div.appendChild(zutatAcht);
-
+            zutatenDiv.appendChild(zutatAcht);
+            
             let zutatNeun: HTMLElement = document.createElement("p");
             zutatNeun.innerHTML = "Neunte Zutat: " + rezepteArray[i].zutatNeun;
-            div.appendChild(zutatNeun);
-
+            zutatenDiv.appendChild(zutatNeun);
+            
             let zutatZehn: HTMLElement = document.createElement("p");
             zutatZehn.innerHTML = "Zehnte Zutat: " + rezepteArray[i].zutatZehn;
-            div.appendChild(zutatZehn);
-
+            zutatenDiv.appendChild(zutatZehn);
+            
             let buttonFavorisieren: HTMLButtonElement = document.createElement("button");
             buttonFavorisieren.id = "buttonFavorisieren" + i;
             buttonFavorisieren.classList.add("favorisierenButtonClass");
             buttonFavorisieren.innerHTML = "Favorisieren";
             buttonFavorisieren.addEventListener("click", favorisieren);
-            div.appendChild(buttonFavorisieren);
+            komplettDiv.appendChild(buttonFavorisieren);
         }
     }
 
@@ -156,9 +159,9 @@ namespace P_3_1Server {
             localStorage.i = 1;
           }
 
-        localstorageArray[localStorage.i] = document.getElementById("Rezept" + targetZaehler)?.innerHTML!;
+        localstorageArray[localStorage.i] = document.getElementById("ausgewaehltesRezept" + targetZaehler)?.innerHTML!;
         localStorage.setItem("favoriten" + localStorage.i, localstorageArray[localStorage.i]);
-        console.log(localStorage.i);
+
     }
 
     function uebertragen(): void {
@@ -166,11 +169,13 @@ namespace P_3_1Server {
         
         for (let i: number = 1; i <= localStorage.i; i++) {
             favoritenArray[i] = localStorage.getItem("favoriten" + i)!;
-            let xDiv: HTMLDivElement = document.createElement("div");
-            xDiv.id = "rezept" + i;
-            xDiv.classList.add("rezepteClass");
-            xDiv.innerHTML = favoritenArray[i];
-            document.getElementById("favorit")?.appendChild(xDiv);
+            let kopierenDiv: HTMLDivElement = document.createElement("div");
+            kopierenDiv.id = "rezept" + i;
+            kopierenDiv.classList.add("rezepteClass");
+            kopierenDiv.innerHTML = favoritenArray[i];
+            document.getElementById("favorit")?.appendChild(kopierenDiv);
+            let buttonEntfavorisieren: HTMLButtonElement = document.createElement("button");
+            kopierenDiv.appendChild(buttonEntfavorisieren);
         }
     }
 }
