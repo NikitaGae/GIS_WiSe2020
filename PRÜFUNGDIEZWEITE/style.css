@@ -57,7 +57,7 @@ body {
   font-family: sans-serif;
 }
 
-.button1, .folgenButtonClass {
+.button1, .favorisierenButtonClass {
   background-color: #4CAF50;
   border: none;
   color: white;
@@ -74,7 +74,7 @@ body {
   border: 2px solid #4CAF50;
 }
 
-.button1:hover, .folgenButtonClass:hover {
+.button1:hover, .favorisierenButtonClass:hover {
   background-color: #4CAF50;
   color: white;
 }
@@ -96,6 +96,8 @@ input[type=text] {
   justify-content: center;
   width: 100%;
 }
+
+
 
 @media screen and (max-width: 600px){
 

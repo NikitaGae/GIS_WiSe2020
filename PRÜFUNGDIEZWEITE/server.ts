@@ -133,7 +133,7 @@ export namespace P_3_1Server {
                 }
             } else if (path == "/eigenRezept") {
                 rezepte.insertOne(url.query);
-                _response.write(rezeptArray);
+                _response.write("Rezept wurde erstellt");
             } else if (path == "/alleRezepte") {
                 console.log("hi");
                 let jsonString: string = "";
