@@ -57,7 +57,7 @@ body {
   font-family: sans-serif;
 }
 
-.button1, .favorisierenButtonClass {
+.button1, .favorisierenButtonClass, .entfavorisierenButtonClass {
   background-color: #4CAF50;
   border: none;
   color: white;

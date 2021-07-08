@@ -128,6 +128,8 @@ var P_3_1Server;
             kopierenDiv.innerHTML = favoritenArray[i];
             document.getElementById("favorit")?.appendChild(kopierenDiv);
             let buttonEntfavorisieren = document.createElement("button");
+            buttonEntfavorisieren.id = "buttonEntfavorisieren" + i;
+            buttonEntfavorisieren.classList.add("entfavorisierenButtonClass");
             buttonEntfavorisieren.innerHTML = "Entfavorisieren";
             buttonEntfavorisieren.addEventListener("click", entfavorisieren);
             kopierenDiv.appendChild(buttonEntfavorisieren);
@@ -147,7 +149,9 @@ var P_3_1Server;
         localStorage.setItem("favoriten" + localStorage.i, localstorageArray[localStorage.i]);
     }
     function entfavorisieren(_event) {
-        console.log("EFfF");
+        let targetZaehler = _event.currentTarget.parentElement.getAttribute("target");
+        localStorage.removeItem("favoriten" + targetZaehler);
+        console.log(targetZaehler);
     }
 })(P_3_1Server || (P_3_1Server = {}));
 //# sourceMappingURL=client.js.map

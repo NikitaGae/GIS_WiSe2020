@@ -90,7 +90,7 @@ namespace P_3_1Server {
         for (let i: number = 0; i < rezepteArray.length; i++) {
             let zutatenDiv: HTMLDivElement = <HTMLDivElement>document.createElement("div");
             let komplettDiv: HTMLDivElement = <HTMLDivElement>document.createElement("div");
-            
+
             zutatenDiv.id = "ausgewaehltesRezept" + i;
             zutatenDiv.classList.add("alleRezepte");
             document.getElementById("text").appendChild(komplettDiv);
@@ -100,7 +100,7 @@ namespace P_3_1Server {
             let zutatEins: HTMLElement = document.createElement("p");
             zutatEins.innerHTML = "Erste Zutat: " + rezepteArray[i].zutatEins;
             zutatenDiv.appendChild(zutatEins);
-            
+
             let zutatZwei: HTMLElement = document.createElement("p");
             zutatZwei.innerHTML = "Zweite Zutat: " + rezepteArray[i].zutatZwei;
             zutatenDiv.appendChild(zutatZwei);
@@ -108,35 +108,35 @@ namespace P_3_1Server {
             let zutatDrei: HTMLElement = document.createElement("p");
             zutatDrei.innerHTML = "Dritte Zutat: " + rezepteArray[i].zutatDrei;
             zutatenDiv.appendChild(zutatDrei);
-            
+
             let zutatVier: HTMLElement = document.createElement("p");
             zutatVier.innerHTML = "Vierte Zutat: " + rezepteArray[i].zutatVier;
             zutatenDiv.appendChild(zutatVier);
-            
+
             let zutatFuenf: HTMLElement = document.createElement("p");
             zutatFuenf.innerHTML = "Fünfte Zutat: " + rezepteArray[i].zutatFuenf;
             zutatenDiv.appendChild(zutatFuenf);
-            
+
             let zutatSechs: HTMLElement = document.createElement("p");
             zutatSechs.innerHTML = "Sechste Zutat: " + rezepteArray[i].zutatSechs;
             zutatenDiv.appendChild(zutatSechs);
-            
+
             let zutatSieben: HTMLElement = document.createElement("p");
             zutatSieben.innerHTML = "Siebte Zutat: " + rezepteArray[i].zutatSieben;
             zutatenDiv.appendChild(zutatSieben);
-            
+
             let zutatAcht: HTMLElement = document.createElement("p");
             zutatAcht.innerHTML = "Achte Zutat: " + rezepteArray[i].zutatAcht;
             zutatenDiv.appendChild(zutatAcht);
-            
+
             let zutatNeun: HTMLElement = document.createElement("p");
             zutatNeun.innerHTML = "Neunte Zutat: " + rezepteArray[i].zutatNeun;
             zutatenDiv.appendChild(zutatNeun);
-            
+
             let zutatZehn: HTMLElement = document.createElement("p");
             zutatZehn.innerHTML = "Zehnte Zutat: " + rezepteArray[i].zutatZehn;
             zutatenDiv.appendChild(zutatZehn);
-            
+
             let buttonFavorisieren: HTMLButtonElement = document.createElement("button");
             buttonFavorisieren.id = "buttonFavorisieren" + i;
             buttonFavorisieren.classList.add("favorisierenButtonClass");
@@ -148,7 +148,7 @@ namespace P_3_1Server {
 
     function uebertragen(): void {
         let favoritenArray: string[] = [];
-        
+
         for (let i: number = 1; i <= localStorage.i; i++) {
             favoritenArray[i] = localStorage.getItem("favoriten" + i)!;
 
@@ -157,8 +157,10 @@ namespace P_3_1Server {
             kopierenDiv.classList.add("rezepteClass");
             kopierenDiv.innerHTML = favoritenArray[i];
             document.getElementById("favorit")?.appendChild(kopierenDiv);
-            
+
             let buttonEntfavorisieren: HTMLButtonElement = document.createElement("button");
+            buttonEntfavorisieren.id = "buttonEntfavorisieren" + i;
+            buttonEntfavorisieren.classList.add("entfavorisierenButtonClass");
             buttonEntfavorisieren.innerHTML = "Entfavorisieren";
             buttonEntfavorisieren.addEventListener("click", entfavorisieren);
             kopierenDiv.appendChild(buttonEntfavorisieren);
@@ -175,15 +177,16 @@ namespace P_3_1Server {
             localStorage.i = Number(localStorage.i) + 1;
         } else {
             localStorage.i = 1;
-          }
+        }
 
         localstorageArray[localStorage.i] = document.getElementById("ausgewaehltesRezept" + targetZaehler)?.innerHTML!;
         localStorage.setItem("favoriten" + localStorage.i, localstorageArray[localStorage.i]);
-
     }
 
     function entfavorisieren(_event: Event): void {
-        console.log("EFfF");
+        let targetZaehler: string = (<HTMLDivElement>(<HTMLElement>_event.currentTarget).parentElement).getAttribute("target")!;
+        localStorage.removeItem("favoriten" + targetZaehler);
+        console.log(targetZaehler);
     }
 
 }
