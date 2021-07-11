@@ -23,7 +23,7 @@ body {
   z-index: 100;
 }
 
-.uebersicht a {
+.uebersicht > a {
   text-decoration: none;
   color:white;
   font-family: sans-serif;
