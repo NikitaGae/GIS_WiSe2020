@@ -8,12 +8,12 @@ var P_3_1Server;
 (function (P_3_1Server) {
     let log;
     let rezepte;
+    let userLogIn;
     console.log("Starting server");
     let port = Number(process.env.PORT);
     if (!port)
         port = 8100;
     //let databaseUrl: string = "mongodb://localhost:27017";
-    //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
     let databaseUrl = "mongodb+srv://Testuser:Testuser@cluster0.ymlqy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
     startServer(port);
     connectToDatabase(databaseUrl);
@@ -78,7 +78,6 @@ var P_3_1Server;
         if (_request.url) {
             //let logInArray: LogIn[] = await log.find().toArray();
             let rezeptArray = await rezepte.find().toArray();
-            //let RezeptArray: Rezept[] = await rezepte.find().toArray();
             let url = Url.parse(_request.url, true);
             let path = url.pathname;
             if (path == "/anmelden") {
@@ -86,19 +85,55 @@ var P_3_1Server;
                     _response.write("User nicht gefunden überprüfen sie ihre eingabe");
                 }
                 else {
-                    _response.write("User gefunden");
+                    /* userLogIn = JSON.parse(JSON.stringify(url.query));
+
+
+
+                    console.log("bin drin");
+                    let logInArray: LogIn[] = await log.find({ "nutzername": userLogIn.nutzername }).toArray();
+
+                    let jsonString: string = "";
+
+                    jsonString += "[";
+                    for (let i: number = 0; i < logInArray.length; i++) {
+                        jsonString += JSON.stringify(logInArray[i]);
+                        if (i < logInArray.length - 1) {
+                            jsonString += ",";
+                        }
+                    }
+                    jsonString += "]";
+                    //_response.write("Eigene Rezepte=" + jsonString);
+                    //_response.write("Eigene Rezepte=" + logInArray); */
+                    _response.write("User gefunden" /* + jsonString */);
                 }
             }
             else if (path == "/registrieren") {
                 if (await vergleichenRegistrieren(url.path) == false) {
                     log.insertOne(url.query);
+                    userLogIn = JSON.parse(JSON.stringify(url.query));
                     _response.write("User erstellt");
                 }
                 else {
                     _response.write("User existiert schon");
                 }
-            }
-            else if (path == "/eigenRezept") {
+            } /* else if (path == "/eigenRezepte") {
+                console.log("bin drin");
+                let logInArray: LogIn[] = await log.find({"nutzername": userLogIn.nutzername}).toArray();
+
+                let jsonString: string = "";
+
+                jsonString += "[";
+                for (let i: number = 0; i < logInArray.length; i++) {
+                    jsonString += JSON.stringify(logInArray[i]);
+                    if (i < logInArray.length - 1) {
+                        jsonString += ",";
+                    }
+                }
+                jsonString += "]";
+                _response.write("Eigene Rezepte=" + jsonString);
+                //_response.write("Eigene Rezepte=" + logInArray);
+            } */
+            else if (path == "/eigenRezeptEinfuegen") {
                 rezepte.insertOne(url.query);
                 _response.write("Rezept wurde erstellt");
             }

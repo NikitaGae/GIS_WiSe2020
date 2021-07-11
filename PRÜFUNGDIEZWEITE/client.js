@@ -20,8 +20,12 @@ var P_3_1Server;
                 knopf.addEventListener("click", function () { communicate(url); });
                 break;
             case "eigenRezept.html":
-                url += "/eigenRezept";
+                url += "/eigenRezeptEinfuegen";
                 knopfRezept.addEventListener("click", function () { communicate(url); });
+                break;
+            case "eigenRezept.html":
+                url += "/eigenRezept";
+                await communicate(url);
                 break;
             case "alleRezepte.html":
                 url += "/alleRezepte";
@@ -48,9 +52,13 @@ var P_3_1Server;
             window.open("alleRezepte.html");
             //localStorage.setItem("responseUser", antwortSplit[1]);
         }
-        else if (antwortHTML == "User erstellt") {
+        else if (alleRezepte[0] == "User erstellt") {
             window.open("alleRezepte.html");
             document.getElementById("text").innerHTML = antwortHTML;
+            /* if (alleRezepte[1] != "[]") {
+                rezepteArray = JSON.parse(alleRezepte[2]);
+            }
+            eigeneRezepte(rezepteArray); */
         }
         else if (antwortHTML == "User nicht gefunden überprüfen sie ihre eingabe") {
             document.getElementById("text").innerHTML = antwortHTML;
@@ -62,12 +70,17 @@ var P_3_1Server;
             document.getElementById("text").innerHTML = antwortHTML;
         }
         else if (alleRezepte[0] == "Rezept") {
-            //let alleRezepte: string[] = antwortHTML[0].split("=");
             if (alleRezepte[1] != "[]") {
                 P_3_1Server.rezepteArray = JSON.parse(alleRezepte[1]);
             }
             rezepteAnzeigen();
-        }
+        } /* else if (alleRezepte[0] == "Eigene Rezepte") {
+            console.log("bin drin");
+            if (alleRezepte[1] != "[]") {
+                rezepteArray = JSON.parse(alleRezepte[1]);
+            }
+            eigeneRezepte();
+        } */
         /* let antwortHTML: string = await response.text();
         (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML; */
     }
@@ -78,8 +91,11 @@ var P_3_1Server;
             zutatenDiv.id = "ausgewaehltesRezept" + i;
             zutatenDiv.classList.add("alleRezepte");
             document.getElementById("text").appendChild(komplettDiv);
-            komplettDiv.setAttribute("target", i.toString());
+            komplettDiv.setAttribute("ziel", i.toString());
             komplettDiv.appendChild(zutatenDiv);
+            let zubereitung = document.createElement("p");
+            zubereitung.innerHTML = "Zubereitung: " + P_3_1Server.rezepteArray[i].zubereitung;
+            zutatenDiv.appendChild(zubereitung);
             let zutatEins = document.createElement("p");
             zutatEins.innerHTML = "Erste Zutat: " + P_3_1Server.rezepteArray[i].zutatEins;
             zutatenDiv.appendChild(zutatEins);
@@ -118,9 +134,72 @@ var P_3_1Server;
             komplettDiv.appendChild(buttonFavorisieren);
         }
     }
+    /* async function eigeneRezepte(rezepteArray: Rezept[]): Promise<void> {
+        for (let i: number = 0; i < rezepteArray.length; i++) {
+            let zutatenDiv: HTMLDivElement = <HTMLDivElement>document.createElement("div");
+            let komplettDiv: HTMLDivElement = <HTMLDivElement>document.createElement("div");
+
+            zutatenDiv.id = "ausgewaehltesRezept" + i;
+            zutatenDiv.classList.add("alleRezepte");
+            document.getElementById("text").appendChild(komplettDiv);
+            komplettDiv.setAttribute("ziel", i.toString());
+            komplettDiv.appendChild(zutatenDiv);
+
+            let zubereitung: HTMLElement = document.createElement("p");
+            zubereitung.innerHTML = "Zubereitung: " + rezepteArray[i].zubereitung;
+            zutatenDiv.appendChild(zubereitung);
+
+            let zutatEins: HTMLElement = document.createElement("p");
+            zutatEins.innerHTML = "Erste Zutat: " + rezepteArray[i].zutatEins;
+            zutatenDiv.appendChild(zutatEins);
+
+            let zutatZwei: HTMLElement = document.createElement("p");
+            zutatZwei.innerHTML = "Zweite Zutat: " + rezepteArray[i].zutatZwei;
+            zutatenDiv.appendChild(zutatZwei);
+
+            let zutatDrei: HTMLElement = document.createElement("p");
+            zutatDrei.innerHTML = "Dritte Zutat: " + rezepteArray[i].zutatDrei;
+            zutatenDiv.appendChild(zutatDrei);
+
+            let zutatVier: HTMLElement = document.createElement("p");
+            zutatVier.innerHTML = "Vierte Zutat: " + rezepteArray[i].zutatVier;
+            zutatenDiv.appendChild(zutatVier);
+
+            let zutatFuenf: HTMLElement = document.createElement("p");
+            zutatFuenf.innerHTML = "Fünfte Zutat: " + rezepteArray[i].zutatFuenf;
+            zutatenDiv.appendChild(zutatFuenf);
+
+            let zutatSechs: HTMLElement = document.createElement("p");
+            zutatSechs.innerHTML = "Sechste Zutat: " + rezepteArray[i].zutatSechs;
+            zutatenDiv.appendChild(zutatSechs);
+
+            let zutatSieben: HTMLElement = document.createElement("p");
+            zutatSieben.innerHTML = "Siebte Zutat: " + rezepteArray[i].zutatSieben;
+            zutatenDiv.appendChild(zutatSieben);
+
+            let zutatAcht: HTMLElement = document.createElement("p");
+            zutatAcht.innerHTML = "Achte Zutat: " + rezepteArray[i].zutatAcht;
+            zutatenDiv.appendChild(zutatAcht);
+
+            let zutatNeun: HTMLElement = document.createElement("p");
+            zutatNeun.innerHTML = "Neunte Zutat: " + rezepteArray[i].zutatNeun;
+            zutatenDiv.appendChild(zutatNeun);
+
+            let zutatZehn: HTMLElement = document.createElement("p");
+            zutatZehn.innerHTML = "Zehnte Zutat: " + rezepteArray[i].zutatZehn;
+            zutatenDiv.appendChild(zutatZehn);
+
+            let buttonFavorisieren: HTMLButtonElement = document.createElement("button");
+            buttonFavorisieren.id = "buttonFavorisieren" + i;
+            buttonFavorisieren.classList.add("favorisierenButtonClass");
+            buttonFavorisieren.innerHTML = "Favorisieren";
+            buttonFavorisieren.addEventListener("click", favorisieren);
+            komplettDiv.appendChild(buttonFavorisieren);
+        }
+    } */
     function uebertragen() {
         let favoritenArray = [];
-        for (let i = 1; i <= localStorage.i; i++) {
+        for (let i = 0; i <= localStorage.i; i++) {
             favoritenArray[i] = localStorage.getItem("favoriten" + i);
             let kopierenDiv = document.createElement("div");
             kopierenDiv.id = "rezept" + i;
@@ -133,25 +212,31 @@ var P_3_1Server;
             buttonEntfavorisieren.innerHTML = "Entfavorisieren";
             buttonEntfavorisieren.addEventListener("click", entfavorisieren);
             kopierenDiv.appendChild(buttonEntfavorisieren);
+            kopierenDiv.setAttribute("ziel", i.toString());
         }
     }
     function favorisieren(_event) {
         let localstorageArray = [];
-        let targetZaehler = _event.currentTarget.parentElement.getAttribute("target");
+        let targetZaehler = _event.currentTarget.parentElement.getAttribute("ziel");
         document.getElementById("buttonFavorisieren" + targetZaehler).innerHTML = "Entfavorisieren";
         if (localStorage.i) {
             localStorage.i = Number(localStorage.i) + 1;
         }
         else {
-            localStorage.i = 1;
+            localStorage.i = 0;
         }
         localstorageArray[localStorage.i] = document.getElementById("ausgewaehltesRezept" + targetZaehler)?.innerHTML;
         localStorage.setItem("favoriten" + localStorage.i, localstorageArray[localStorage.i]);
     }
     function entfavorisieren(_event) {
-        let targetZaehler = _event.currentTarget.parentElement.getAttribute("target");
+        let targetZaehler = _event.currentTarget.parentElement.getAttribute("ziel");
         localStorage.removeItem("favoriten" + targetZaehler);
-        console.log(targetZaehler);
+        document.getElementById("rezept" + targetZaehler).remove();
+        localStorage.i--;
+        for (let i = parseInt(targetZaehler); i <= localStorage.i; i++) {
+            let addition = i + 1;
+            localStorage.setItem("favoriten" + i, localStorage.getItem("favoriten" + addition));
+        }
     }
 })(P_3_1Server || (P_3_1Server = {}));
 //# sourceMappingURL=client.js.map

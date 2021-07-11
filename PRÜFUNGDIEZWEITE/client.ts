@@ -5,6 +5,7 @@ namespace P_3_1Server {
     main();
 
     interface Rezept {
+        zubereitung: string;
         zutatEins: string;
         zutatZwei: string;
         zutatDrei: string;
@@ -23,8 +24,8 @@ namespace P_3_1Server {
     async function main(): Promise<void> {
         let location: string[] = window.location.pathname.split("/");
         let teil: string = location[location.length - 1];
-        //let url: string = "https://testgiswise2020.herokuapp.com";
-        let url: string = "http://localhost:8100";
+        let url: string = "https://testgiswise2020.herokuapp.com";
+        //let url: string = "http://localhost:8100";
 
         switch (teil) {
             case "registrieren.html":
@@ -36,7 +37,7 @@ namespace P_3_1Server {
                 knopf.addEventListener("click", function (): void { communicate(url); });
                 break;
             case "eigenRezept.html":
-                url += "/eigenRezept";
+                url += "/eigenRezeptEinfuegen";
                 knopfRezept.addEventListener("click", function (): void { communicate(url); });
                 break;
             case "alleRezepte.html":
@@ -51,11 +52,6 @@ namespace P_3_1Server {
 
     //hier werden die server antworten in das div mit der id text geschrieben
     async function communicate(_url: RequestInfo): Promise<void> {
-        /* let formData: FormData = new FormData(document.forms[0]);
-        let query: URLSearchParams = new URLSearchParams(<any>formData);
-        _url = _url + "?" + query.toString();
-        let response: Response = await fetch(_url); */
-
         let formData: FormData = new FormData(document.forms[0]);
         let query: URLSearchParams = new URLSearchParams(<any>formData);
         _url = _url + "?" + query.toString();
@@ -65,8 +61,7 @@ namespace P_3_1Server {
 
         if (antwortHTML == "User gefunden") {
             window.open("alleRezepte.html");
-            //localStorage.setItem("responseUser", antwortSplit[1]);
-        } else if (antwortHTML == "User erstellt") {
+        } else if (alleRezepte[0] == "User erstellt") {
             window.open("alleRezepte.html");
             (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
         } else if (antwortHTML == "User nicht gefunden überprüfen sie ihre eingabe") {
@@ -76,14 +71,11 @@ namespace P_3_1Server {
         } else if (antwortHTML == "Rezept wurde erstellt") {
             (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML;
         } else if (alleRezepte[0] == "Rezept") {
-            //let alleRezepte: string[] = antwortHTML[0].split("=");
             if (alleRezepte[1] != "[]") {
                 rezepteArray = JSON.parse(alleRezepte[1]);
             }
             rezepteAnzeigen();
-        }
-        /* let antwortHTML: string = await response.text();
-        (<HTMLDivElement>document.getElementById("text")).innerHTML = antwortHTML; */
+        } 
     }
 
     async function rezepteAnzeigen(): Promise<void> {
@@ -94,8 +86,12 @@ namespace P_3_1Server {
             zutatenDiv.id = "ausgewaehltesRezept" + i;
             zutatenDiv.classList.add("alleRezepte");
             document.getElementById("text").appendChild(komplettDiv);
-            komplettDiv.setAttribute("target", i.toString());
+            komplettDiv.setAttribute("ziel", i.toString());
             komplettDiv.appendChild(zutatenDiv);
+
+            let zubereitung: HTMLElement = document.createElement("p");
+            zubereitung.innerHTML = "Zubereitung: " + rezepteArray[i].zubereitung;
+            zutatenDiv.appendChild(zubereitung);
 
             let zutatEins: HTMLElement = document.createElement("p");
             zutatEins.innerHTML = "Erste Zutat: " + rezepteArray[i].zutatEins;
@@ -149,7 +145,7 @@ namespace P_3_1Server {
     function uebertragen(): void {
         let favoritenArray: string[] = [];
 
-        for (let i: number = 1; i <= localStorage.i; i++) {
+        for (let i: number = 0; i <= localStorage.i; i++) {
             favoritenArray[i] = localStorage.getItem("favoriten" + i)!;
 
             let kopierenDiv: HTMLDivElement = document.createElement("div");
@@ -164,19 +160,21 @@ namespace P_3_1Server {
             buttonEntfavorisieren.innerHTML = "Entfavorisieren";
             buttonEntfavorisieren.addEventListener("click", entfavorisieren);
             kopierenDiv.appendChild(buttonEntfavorisieren);
+
+            kopierenDiv.setAttribute("ziel", i.toString());
         }
     }
 
     function favorisieren(_event: Event): void {
         let localstorageArray: string[] = [];
 
-        let targetZaehler: string = (<HTMLDivElement>(<HTMLElement>_event.currentTarget).parentElement).getAttribute("target")!;
+        let targetZaehler: string = (<HTMLDivElement>(<HTMLElement>_event.currentTarget).parentElement).getAttribute("ziel")!;
         (<HTMLDivElement>document.getElementById("buttonFavorisieren" + targetZaehler)).innerHTML = "Entfavorisieren";
 
         if (localStorage.i) {
             localStorage.i = Number(localStorage.i) + 1;
         } else {
-            localStorage.i = 1;
+            localStorage.i = 0;
         }
 
         localstorageArray[localStorage.i] = document.getElementById("ausgewaehltesRezept" + targetZaehler)?.innerHTML!;
@@ -184,9 +182,13 @@ namespace P_3_1Server {
     }
 
     function entfavorisieren(_event: Event): void {
-        let targetZaehler: string = (<HTMLDivElement>(<HTMLElement>_event.currentTarget).parentElement).getAttribute("target")!;
+        let targetZaehler: string = (<HTMLDivElement>(<HTMLElement>_event.currentTarget).parentElement).getAttribute("ziel")!;
         localStorage.removeItem("favoriten" + targetZaehler);
-        console.log(targetZaehler);
+        document.getElementById("rezept" + targetZaehler).remove();
+        localStorage.i--;
+        for (let i: number = parseInt(targetZaehler); i <= localStorage.i; i++) {
+            let addition: number = i + 1;
+            localStorage.setItem("favoriten" + i, localStorage.getItem("favoriten" + addition));
+        }
     }
-
 }

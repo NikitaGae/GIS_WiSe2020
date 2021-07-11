@@ -12,6 +12,7 @@ export namespace P_3_1Server {
     }
 
     interface Rezept {
+        zubereitung: string;
         zutatEins: string;
         zutatZwei: string;
         zutatDrei: string;
@@ -33,7 +34,6 @@ export namespace P_3_1Server {
         port = 8100;
 
     //let databaseUrl: string = "mongodb://localhost:27017";
-    //let databaseUrl: string = "mongodb+srv://Testuser:Testuser@nikita-gis-ist-geil.gl0tb.mongodb.net/Nikita-GIS-IST-GEIL?retryWrites=true&w=majority";
     let databaseUrl: string = "mongodb+srv://Testuser:Testuser@cluster0.ymlqy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
     startServer(port);
     connectToDatabase(databaseUrl);
@@ -67,10 +67,6 @@ export namespace P_3_1Server {
         let pathSplit: string[] = _url.split("?");
         let daten: string[] = pathSplit[1].split("&");
         let ntzNutzername: string[] = daten[0].split("=");
-        /* let ntzVorname: string[] = daten[1].split("=");
-        let ntzNachname: string[] = daten[2].split("=");
-        let ntzPasswort: string[] = daten[3].split("="); */
-
         let logInArray: LogIn[] = await log.find().toArray();
 
         for (let i: number = 0; i < logInArray.length; i++) {
@@ -87,8 +83,6 @@ export namespace P_3_1Server {
         let pathSplit: string[] = _url.split("?");
         let daten: string[] = pathSplit[1].split("&");
         let ntzUserName: string[] = daten[0].split("=");
-        /* let ntzVorname: string[] = daten[1].split("=");
-        let ntzNachname: string[] = daten[2].split("="); */
         let ntzPasswort: string[] = daten[1].split("=");
 
         let logInArray: LogIn[] = await log.find().toArray();
@@ -111,10 +105,7 @@ export namespace P_3_1Server {
         _response.setHeader("Access-Control-Allow-Origin", "*");
 
         if (_request.url) {
-
-            //let logInArray: LogIn[] = await log.find().toArray();
             let rezeptArray: Rezept[] = await rezepte.find().toArray();
-            //let RezeptArray: Rezept[] = await rezepte.find().toArray();
             let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true);
             let path: String | null = url.pathname;
 
@@ -131,7 +122,7 @@ export namespace P_3_1Server {
                 } else {
                     _response.write("User existiert schon");
                 }
-            } else if (path == "/eigenRezept") {
+            } else if (path == "/eigenRezeptEinfuegen") {
                 rezepte.insertOne(url.query);
                 _response.write("Rezept wurde erstellt");
             } else if (path == "/alleRezepte") {

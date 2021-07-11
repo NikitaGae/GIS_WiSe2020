@@ -89,6 +89,17 @@ input[type=text] {
   color: white;
 }
 
+#zubereitungFeld{
+  width: 20%;
+  height: 200px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  background-color: #3CBC8D;
+  color: white;
+}
+
 .felder {
   Display: flex;
   flex-direction: column;
@@ -114,7 +125,9 @@ input[type=text] {
   padding-left: 1%;
 }
 
-
+#zubereitungFeld{
+  width: 60%;
+}
 
 input[type=text] {
   width: 50%;
