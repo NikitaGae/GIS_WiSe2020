@@ -20,7 +20,7 @@ namespace P_3_1Server {
 
     export let rezepteArray: Rezept[];
 
-    //hier soll er je nach  html seite registrieren anmelden oder nutzer in die url anhängen damit später erkannt werden kann wo man ist
+    //erkennt auf welcher html er sich befindet und hängt dementsprechen eine url dran und schickt die an die communicate funktion
     async function main(): Promise<void> {
         let location: string[] = window.location.pathname.split("/");
         let teil: string = location[location.length - 1];
@@ -50,7 +50,7 @@ namespace P_3_1Server {
         }
     }
 
-    //hier werden die server antworten in das div mit der id text geschrieben
+    //die url wird an den server geschickt und empfangen und je nach antwort verarbeitet und weiter geleitet
     async function communicate(_url: RequestInfo): Promise<void> {
         let formData: FormData = new FormData(document.forms[0]);
         let query: URLSearchParams = new URLSearchParams(<any>formData);
@@ -78,6 +78,7 @@ namespace P_3_1Server {
         } 
     }
 
+    //alle rezepte werden hier in html Elemente verpackt und auf der html abgebildet zu jedem rezept wird noch ein Button zugeteilt
     async function rezepteAnzeigen(): Promise<void> {
         for (let i: number = 0; i < rezepteArray.length; i++) {
             let zutatenDiv: HTMLDivElement = <HTMLDivElement>document.createElement("div");
@@ -142,6 +143,7 @@ namespace P_3_1Server {
         }
     }
 
+    //die rezepte welche im localStorage sind werden als favoriten abgebildet  
     function uebertragen(): void {
         let favoritenArray: string[] = [];
 
@@ -165,6 +167,7 @@ namespace P_3_1Server {
         }
     }
 
+    //das angeklickte rezept wird in den localStorage gespeichert
     function favorisieren(_event: Event): void {
         let localstorageArray: string[] = [];
 
@@ -181,6 +184,7 @@ namespace P_3_1Server {
         localStorage.setItem("favoriten" + localStorage.i, localstorageArray[localStorage.i]);
     }
 
+    //das angeklickte rezept wird aus dem localStorage entfernt und die unteren rezepte werden nach gerückt
     function entfavorisieren(_event: Event): void {
         let targetZaehler: string = (<HTMLDivElement>(<HTMLElement>_event.currentTarget).parentElement).getAttribute("ziel")!;
         localStorage.removeItem("favoriten" + targetZaehler);

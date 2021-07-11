@@ -61,7 +61,8 @@ export namespace P_3_1Server {
         rezepte = mongoClient.db("test").collection("rezepte");
         console.log("Database connection ", log != undefined);
     }
-    //function zum vergleichen der eingegeben daten
+
+    //daten werden zur registrierung verglichen und überprüft ob sie sich in der datenbank befinden
     async function vergleichenRegistrieren(_url: string): Promise<boolean> {
 
         let pathSplit: string[] = _url.split("?");
@@ -78,6 +79,7 @@ export namespace P_3_1Server {
         return false;
     }
 
+    //daten werden zur anmeldung verglichen und überprüft ob der user existiert
     async function vergleichenAnmelden(_url: string): Promise<boolean> {
 
         let pathSplit: string[] = _url.split("?");
@@ -98,7 +100,7 @@ export namespace P_3_1Server {
         return false;
     }
 
-    //hier werden die server antworten geschrieben je nachdem auf welcher html seite wir uns befinden
+    //hier werden die server antworten geschrieben je nachdem welcher path ausgewählt wird 
     async function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): Promise<void> {
         console.log("I hear voices!");
         _response.setHeader("content-type", "text/html; charset=utf-8");
@@ -109,12 +111,14 @@ export namespace P_3_1Server {
             let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true);
             let path: String | null = url.pathname;
 
+            //server antwort ob user schon existiert oder nicht
             if (path == "/anmelden") {
                 if (await vergleichenAnmelden(url.path) == false) {
                     _response.write("User nicht gefunden überprüfen sie ihre eingabe");
                 } else {
                     _response.write("User gefunden");
                 }
+            //serverantwort ob user schon existiert oder nicht
             } else if (path == "/registrieren") {
                 if (await vergleichenRegistrieren(url.path) == false) {
                     log.insertOne(url.query);
@@ -122,9 +126,11 @@ export namespace P_3_1Server {
                 } else {
                     _response.write("User existiert schon");
                 }
+            //rezept wird in die datenbank eingeführt
             } else if (path == "/eigenRezeptEinfuegen") {
                 rezepte.insertOne(url.query);
                 _response.write("Rezept wurde erstellt");
+            //alle rezepte werden aus der datenbank zurück geschickt
             } else if (path == "/alleRezepte") {
                 let jsonString: string = "";
 
