@@ -8,7 +8,6 @@ var P_3_1Server;
 (function (P_3_1Server) {
     let log;
     let rezepte;
-    let userLogIn;
     console.log("Starting server");
     let port = Number(process.env.PORT);
     if (!port)
@@ -35,14 +34,11 @@ var P_3_1Server;
         rezepte = mongoClient.db("test").collection("rezepte");
         console.log("Database connection ", log != undefined);
     }
-    //function zum vergleichen der eingegeben daten
+    //daten werden zur registrierung verglichen und überprüft ob sie sich in der datenbank befinden
     async function vergleichenRegistrieren(_url) {
         let pathSplit = _url.split("?");
         let daten = pathSplit[1].split("&");
         let ntzNutzername = daten[0].split("=");
-        /* let ntzVorname: string[] = daten[1].split("=");
-        let ntzNachname: string[] = daten[2].split("=");
-        let ntzPasswort: string[] = daten[3].split("="); */
         let logInArray = await log.find().toArray();
         for (let i = 0; i < logInArray.length; i++) {
             if (ntzNutzername[1] == (logInArray[i].vorname)) {
@@ -52,12 +48,11 @@ var P_3_1Server;
         }
         return false;
     }
+    //daten werden zur anmeldung verglichen und überprüft ob der user existiert
     async function vergleichenAnmelden(_url) {
         let pathSplit = _url.split("?");
         let daten = pathSplit[1].split("&");
         let ntzUserName = daten[0].split("=");
-        /* let ntzVorname: string[] = daten[1].split("=");
-        let ntzNachname: string[] = daten[2].split("="); */
         let ntzPasswort = daten[1].split("=");
         let logInArray = await log.find().toArray();
         for (let i = 0; i < logInArray.length; i++) {
@@ -70,72 +65,39 @@ var P_3_1Server;
         }
         return false;
     }
-    //hier werden die server antworten geschrieben je nachdem auf welcher html seite wir uns befinden
+    //hier werden die server antworten geschrieben je nachdem welcher path ausgewählt wird 
     async function handleRequest(_request, _response) {
         console.log("I hear voices!");
         _response.setHeader("content-type", "text/html; charset=utf-8");
         _response.setHeader("Access-Control-Allow-Origin", "*");
         if (_request.url) {
-            //let logInArray: LogIn[] = await log.find().toArray();
             let rezeptArray = await rezepte.find().toArray();
             let url = Url.parse(_request.url, true);
             let path = url.pathname;
+            //server antwort ob user schon existiert oder nicht
             if (path == "/anmelden") {
                 if (await vergleichenAnmelden(url.path) == false) {
                     _response.write("User nicht gefunden überprüfen sie ihre eingabe");
                 }
                 else {
-                    /* userLogIn = JSON.parse(JSON.stringify(url.query));
-
-
-
-                    console.log("bin drin");
-                    let logInArray: LogIn[] = await log.find({ "nutzername": userLogIn.nutzername }).toArray();
-
-                    let jsonString: string = "";
-
-                    jsonString += "[";
-                    for (let i: number = 0; i < logInArray.length; i++) {
-                        jsonString += JSON.stringify(logInArray[i]);
-                        if (i < logInArray.length - 1) {
-                            jsonString += ",";
-                        }
-                    }
-                    jsonString += "]";
-                    //_response.write("Eigene Rezepte=" + jsonString);
-                    //_response.write("Eigene Rezepte=" + logInArray); */
-                    _response.write("User gefunden" /* + jsonString */);
+                    _response.write("User gefunden");
                 }
+                //serverantwort ob user schon existiert oder nicht
             }
             else if (path == "/registrieren") {
                 if (await vergleichenRegistrieren(url.path) == false) {
                     log.insertOne(url.query);
-                    userLogIn = JSON.parse(JSON.stringify(url.query));
                     _response.write("User erstellt");
                 }
                 else {
                     _response.write("User existiert schon");
                 }
-            } /* else if (path == "/eigenRezepte") {
-                console.log("bin drin");
-                let logInArray: LogIn[] = await log.find({"nutzername": userLogIn.nutzername}).toArray();
-
-                let jsonString: string = "";
-
-                jsonString += "[";
-                for (let i: number = 0; i < logInArray.length; i++) {
-                    jsonString += JSON.stringify(logInArray[i]);
-                    if (i < logInArray.length - 1) {
-                        jsonString += ",";
-                    }
-                }
-                jsonString += "]";
-                _response.write("Eigene Rezepte=" + jsonString);
-                //_response.write("Eigene Rezepte=" + logInArray);
-            } */
+                //rezept wird in die datenbank eingeführt
+            }
             else if (path == "/eigenRezeptEinfuegen") {
                 rezepte.insertOne(url.query);
                 _response.write("Rezept wurde erstellt");
+                //alle rezepte werden aus der datenbank zurück geschickt
             }
             else if (path == "/alleRezepte") {
                 let jsonString = "";
